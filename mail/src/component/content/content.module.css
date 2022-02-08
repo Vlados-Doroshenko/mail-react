@@ -1,0 +1,36 @@
+.letter {
+    text-align: center;
+}
+
+.letter:hover{
+    background: #f1eeee;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.letter_input{
+    margin: auto 20px;
+}
+
+.letter td {
+    border-bottom: 1px solid #000000;
+    border-top: 1px solid #000000;
+}
+
+.letter td:first-child {
+    border-left: 1px solid #000000;
+}
+
+.letter td:last-child {
+    border-right: 1px solid #000000;
+}
+
+.title{
+    margin: auto 20px;
+}
+
+.description{
+    vertical-align: middle;
+    text-align: center;
+    line-height: 45px;
+}

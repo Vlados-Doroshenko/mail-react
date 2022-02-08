@@ -1,0 +1,75 @@
+.header{
+    height: 40px;
+    border-radius: 16px 16px 0 0 ;
+    background: #232323;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.header button {
+    margin-right: 10px;
+    background: transparent;
+    border: none;
+    color: #ffff;
+}
+
+.header button:hover {
+    cursor: pointer;
+}
+
+.input{
+    width: 80%;
+    margin: 20px auto;
+    height: 20px;
+    border: 0 ;
+    border-bottom: 1px black solid;
+    outline: none;
+}
+.textarea{
+    height: 40%;
+    margin: 20px auto;
+    width: 80%;
+    border: 1px solid #000;
+    border-radius: 8px;
+}
+
+.button{
+    width: 50%;
+    border-radius: 8px;
+    border: 0;
+    color: white;
+    background: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.button:hover{
+    cursor: pointer;
+    background: greenyellow;
+    color: black;
+}
+.modalContent{
+    background: white;
+    border-radius: 16px;
+    min-width: 250px;
+    display: flex;
+    width: 500px;
+    height: 300px;
+    margin-bottom: 50px;
+    flex-direction: column;
+    position: relative;
+}
+
+.header ul button, .header ul a {
+    border: none;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.header ul button, .header ul a:hover {
+    cursor: pointer;
+}

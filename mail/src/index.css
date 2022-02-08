@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.active button span, .active button{
+  color: red;
+}
+
