@@ -11,6 +11,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import SettingMenu from "./component/settingMenu/SettingMenu";
 import './index.css';
 import 'materialize-css';
+import SideBar from "./component/sidebar/SideBar";
 
 const App = () => {
     const [data, setData] = useState([]);
@@ -37,8 +38,6 @@ const App = () => {
     }, [update]);
 
     const [modal, setModal] = useState(false);
-
-    const [active, setActive] = useState(false);
 
     const [setting, setSetting] = useState(true);
 
@@ -161,24 +160,25 @@ const App = () => {
                     <Modal visible={modal}>
                         <ModalForm sendMail={sendMail} modal={setModal} collection={collection}/>
                     </Modal>
-                    <Header visible={visible}/>
+                    <Header/>
+                    <SideBar visible={visible}/>
                     {setting ? '' :
                         <SettingMenu collection={collection} post={data.map((post) => post)} spam={multipleSpam}
                                      trash={multipleTrash}
                                      inbox={multipleInbox}/>}
                     <Routes>
-                        <Route path="/inbox" className={active ? 'active' : ''} onClick={() => setActive(false)}
+                        <Route path="/inbox"
                                element={<Aplication data={data.filter(p => p.type === 'inbox')} spam={spam}
                                                     collection={collection}
                                                     trash={trash} options={'inbox'}/>}/>
-                        <Route path="/send" className={active ? 'active' : ''} onClick={() => setActive(false)}
+                        <Route path="/send"
                                element={<Aplication data={data.filter(p => p.type === 'send')} collection={collection}
                                                     trash={trash} options={'send'}/>}/>
-                        <Route path="/spam" className={active ? 'active' : ''} onClick={() => setActive(false)}
+                        <Route path="/spam"
                                element={<Aplication data={data.filter(p => p.type === 'spam')} collection={collection}
                                                     trash={trash} inbox={inbox}
                                                     options={'spam'}/>}/>
-                        <Route path="/trash" className={active ? 'active' : ''} onClick={() => setActive(false)}
+                        <Route path="/trash"
                                element={<Aplication data={data.filter(p => p.type === 'trash')} collection={collection}
                                                     remove={removeData} spam={spam} inbox={inbox}
                                                     options={'trash'}/>}/>

@@ -21,7 +21,10 @@ a:hover {
   cursor: pointer;
 }
 
-.active button span, .active button{
-  color: red;
+.active {
+  color: red!important;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 8px;
 }
 
