@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './menu.module.css';
 
-const Menu = ({remove, post, spam, trash, inbox, options}) => {
+const Menu = ({remove, post, spam, trash, restore, options}) => {
 
     const handleRemove = (e) => {
         e.stopPropagation();
@@ -15,10 +15,10 @@ const Menu = ({remove, post, spam, trash, inbox, options}) => {
         spam(post);
     }
 
-    const handleInbox = (e) => {
+    const handleRestore = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        inbox(post);
+        restore(post);
     }
 
     const handleTrash = (e) => {
@@ -29,8 +29,8 @@ const Menu = ({remove, post, spam, trash, inbox, options}) => {
 
     return (
         <div className={classes.menu}>
-            {options === 'spam' && <span className='material-icons' onClick={handleInbox}>restore</span>}
-            {options === 'trash' && <span className='material-icons' onClick={handleInbox}>restore</span>}
+            {options === 'spam' && <span className='material-icons' onClick={handleRestore}>restore</span>}
+            {options === 'trash' && <span className='material-icons' onClick={handleRestore}>restore</span>}
             {options === 'inbox' && <span className='material-icons' onClick={handleSpam}>report</span>}
             {options === 'trash' ?  <span className='material-icons' onClick={handleRemove}>delete</span> : <span className='material-icons' onClick={handleTrash}>delete</span>}
         </div>

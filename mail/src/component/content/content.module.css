@@ -1,5 +1,8 @@
+@import "../menu/menu.module.css";
+
 .letter {
     text-align: center;
+    position: relative;
 }
 
 .letter:hover{
@@ -21,7 +24,7 @@
     border-left: 1px solid #000000;
 }
 
-.letter td:last-child {
+.letter td:nth-child(n+1) {
     border-right: 1px solid #000000;
 }
 

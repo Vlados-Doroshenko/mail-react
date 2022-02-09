@@ -14,6 +14,7 @@ import 'materialize-css';
 import SideBar from "./component/sidebar/SideBar";
 
 const App = () => {
+
     const [data, setData] = useState([]);
 
     const [collection, setCollection] = useState(null);
@@ -29,8 +30,8 @@ const App = () => {
             const client = app.currentUser.mongoClient(SERVICE_NAME);
             const collection = client.db(DATABASE_NAME).collection(COLLECTION_NAME);
             setCollection(collection);
-            const items = await collection.find();
-            setData(items);
+            const item = await collection.find();
+            setData(item);
 
             await setLoader(false);
         }
@@ -39,109 +40,10 @@ const App = () => {
 
     const [modal, setModal] = useState(false);
 
-    const [setting, setSetting] = useState(true);
-
-    // handleRemoveData
-    const removeData = (post) => {
-        setData(data.filter(p => p._id !== post._id));
-        collection.deleteOne({_id: post._id});
-    }
-
-
-    const spam = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'spam';
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        collection.updateOne({_id: index._id}, {
-            title: index.title,
-            description: index.description,
-            type: 'spam',
-            checkbox: index.checkbox
-        });
-    }
-
-    const trash = (index) => {
-        let newData = []
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'trash';
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        collection.updateOne({_id: index._id}, {
-            title: index.title,
-            description: index.description,
-            type: 'trash',
-            checkbox: index.checkbox
-        });
-    }
-
-    const inbox = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'inbox';
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        collection.updateOne({_id: index._id}, {
-            title: index.title,
-            description: index.description,
-            type: 'inbox',
-            checkbox: index.checkbox
-        });
-    }
-
-    const multipleSpam = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'spam';
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        setUpdate(!update);
-        setSetting(index.checkbox);
-    }
-
-    const multipleTrash = (index) => {
-        let newData = []
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'trash';
-                a.checkbox = true;
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        setUpdate(!update);
-        setSetting(index.checkbox);
-    }
-
-    const multipleInbox = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'inbox';
-                a.checkbox = true;
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        setUpdate(!update);
-        setSetting(index.checkbox);
-    }
+    // const [setting, setSetting] = useState(true);
 
     const sendMail = (newMail) => {
-        setData([...data, newMail]);
+        // setData([...data, newMail]);
         setUpdate(!update);
         setModal(false);
     }
@@ -162,31 +64,30 @@ const App = () => {
                     </Modal>
                     <Header/>
                     <SideBar visible={visible}/>
-                    {setting ? '' :
-                        <SettingMenu collection={collection} post={data.map((post) => post)} spam={multipleSpam}
-                                     trash={multipleTrash}
-                                     inbox={multipleInbox}/>}
+                    {/*{setting ? '' :*/}
+                    {/*    <SettingMenu collection={collection}/>}*/}
                     <Routes>
                         <Route path="/inbox"
-                               element={<Aplication data={data.filter(p => p.type === 'inbox')} spam={spam}
+                               element={<Aplication data={data} setData={setData}
                                                     collection={collection}
-                                                    trash={trash} options={'inbox'}/>}/>
+                                                    options={'inbox'}/>}/>
                         <Route path="/send"
-                               element={<Aplication data={data.filter(p => p.type === 'send')} collection={collection}
-                                                    trash={trash} options={'send'}/>}/>
+                               element={<Aplication collection={collection} setData={setData}
+                                                    data={data}
+                                                    options={'send'}/>}/>
                         <Route path="/spam"
-                               element={<Aplication data={data.filter(p => p.type === 'spam')} collection={collection}
-                                                    trash={trash} inbox={inbox}
+                               element={<Aplication collection={collection} setData={setData}
+                                                    data={data}
                                                     options={'spam'}/>}/>
                         <Route path="/trash"
-                               element={<Aplication data={data.filter(p => p.type === 'trash')} collection={collection}
-                                                    remove={removeData} spam={spam} inbox={inbox}
+                               element={<Aplication collection={collection} setData={setData}
+                                                    data={data}
                                                     options={'trash'}/>}/>
                         <Route path="/"
-                               element={<Aplication data={data.filter(p => p.type === 'inbox')} spam={spam}
-                                                    collection={collection}
-                                                    trash={trash} options={'inbox'}/>}/>
-                        <Route path="/:id" element={<Detail data={data}/>}/>
+                               element={<Aplication collection={collection} setData={setData}
+                                                    data={data}
+                                                    options={'inbox'}/>}/>
+                        <Route path="/:id" element={<Detail/>}/>
                     </Routes>
                 </BrowserRouter>
             </div>
