@@ -34,3 +34,7 @@
     align-items: center;
     color: #000000;
 }
+
+.sidebar__item a {
+    padding: 5px;
+}
