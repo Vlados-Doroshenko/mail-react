@@ -21,7 +21,7 @@ const Content = ({post, remove, spam, inbox, checkbox, options, trash}) => {
     return (
         <tr className={classes.letter}>
             <td>
-                <input className={classes.letter_input} type='checkbox' checked={post.checkbox} onClick={()=> checkbox(post)}/>
+                <input className={classes.letter_input} type='checkbox'/>
             </td>
             <td>
                 <Link to={`/${post._id}`}>

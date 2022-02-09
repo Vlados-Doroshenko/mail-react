@@ -48,6 +48,7 @@ const App = () => {
         collection.deleteOne({_id: post._id});
     }
 
+
     const spam = (index) => {
         let newData = [];
         data.forEach((a) => {
@@ -146,33 +147,6 @@ const App = () => {
         setModal(false);
     }
 
-    const checkbox = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                if (a.checkbox === true) {
-                    collection.updateOne({_id: index._id}, {
-                        title: index.title,
-                        description: index.description,
-                        type: index.type,
-                        checkbox: false
-                    });
-                } else {
-                    collection.updateOne({_id: index._id}, {
-                        title: index.title,
-                        description: index.description,
-                        type: index.type,
-                        checkbox: true
-                    });
-                }
-                setSetting(index.checkbox === true);
-            }
-            newData.push(a);
-        });
-        setData(newData);
-        setUpdate(!update);
-    }
-
     const visible = () => {
         setModal(true);
     }
@@ -195,23 +169,23 @@ const App = () => {
                     <Routes>
                         <Route path="/inbox" className={active ? 'active' : ''} onClick={() => setActive(false)}
                                element={<Aplication data={data.filter(p => p.type === 'inbox')} spam={spam}
-                                                    collection={collection} checkbox={checkbox}
+                                                    collection={collection}
                                                     trash={trash} options={'inbox'}/>}/>
                         <Route path="/send" className={active ? 'active' : ''} onClick={() => setActive(false)}
                                element={<Aplication data={data.filter(p => p.type === 'send')} collection={collection}
-                                                    trash={trash} checkbox={checkbox} options={'send'}/>}/>
+                                                    trash={trash} options={'send'}/>}/>
                         <Route path="/spam" className={active ? 'active' : ''} onClick={() => setActive(false)}
                                element={<Aplication data={data.filter(p => p.type === 'spam')} collection={collection}
-                                                    trash={trash} checkbox={checkbox} inbox={inbox}
+                                                    trash={trash} inbox={inbox}
                                                     options={'spam'}/>}/>
                         <Route path="/trash" className={active ? 'active' : ''} onClick={() => setActive(false)}
                                element={<Aplication data={data.filter(p => p.type === 'trash')} collection={collection}
-                                                    remove={removeData} checkbox={checkbox} spam={spam} inbox={inbox}
+                                                    remove={removeData} spam={spam} inbox={inbox}
                                                     options={'trash'}/>}/>
                         <Route path="/"
                                element={<Aplication data={data.filter(p => p.type === 'inbox')} spam={spam}
                                                     collection={collection}
-                                                    trash={trash} checkbox={checkbox} options={'inbox'}/>}/>
+                                                    trash={trash} options={'inbox'}/>}/>
                         <Route path="/:id" element={<Detail data={data}/>}/>
                     </Routes>
                 </BrowserRouter>

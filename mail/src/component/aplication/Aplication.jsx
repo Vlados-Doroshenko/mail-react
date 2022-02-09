@@ -4,32 +4,21 @@ import classes from './aplication.module.css'
 
 const Aplication = ({data, remove, checkbox, spam, inbox, options, trash}) => {
 
-    if (!data.length) {
-        if (options === 'inbox') {
-            return (
-                <h1 style={{textAlign: 'center', marginTop: '150px'}}>The inbox is empty</h1>
-            )
-        } else if (options === 'trash') {
-            return (
-                <h1 style={{textAlign: 'center', marginTop: '150px'}}>The trash is empty</h1>
-            )
-        } else if (options === 'send') {
-            return (
-                <h1 style={{textAlign: 'center', marginTop: '150px'}}>You haven't sent any messages yet</h1>
-            )
-        } else {
-            return (
-                <h1 style={{textAlign: 'center', marginTop: '150px'}}>The spam is empty</h1>
-            )
-        }
-    }
-
     return (
         <div className={classes.aplication}>
+            {!data.length ?
+            <h1 className={classes.aplication__content}>
+                {options === 'inbox' ? 'The inbox is empty' : ''}
+                {options === 'trash' ? 'The trash is empty' : ''}
+                {options === 'send' ? 'You haven\'t sent any messages yet' : ''}
+                {options === 'spam' ? 'The spam is empty' : ''}
+            </h1>
+                :
             <table cellspacing="0">
                 <thead>
                 <tr>
                     <th>
+                        <input type='checkbox'/>
                     </th>
                     <th>Title</th>
                     <th>Description</th>
@@ -46,8 +35,10 @@ const Aplication = ({data, remove, checkbox, spam, inbox, options, trash}) => {
                 }
                 </tbody>
             </table>
+            }
         </div>
-    );
+)
+    ;
 };
 
 export default Aplication;

@@ -27,35 +27,14 @@ const Menu = ({remove, post, spam, trash, inbox, options}) => {
         trash(post);
     }
 
-    if (options === 'inbox') {
-        return (
-            <td className={classes.menu}>
-                <span className='material-icons' onClick={handleSpam}>report</span>
-                <span className='material-icons' onClick={handleTrash}>delete</span>
-            </td>
-        )
-    } else if (options === 'spam') {
-        return (
-            <td className={classes.menu}>
-                <span className='material-icons' onClick={handleInbox}>inbox</span>
-                <span className='material-icons' onClick={handleTrash}>delete</span>
-            </td>
-        )
-    } else if (options === 'send') {
-        return (
-            <td className={classes.menu}>
-                <span className='material-icons' onClick={handleTrash}>delete</span>
-            </td>
-        )
-    } else {
-        return (
-            <td className={classes.menu}>
-                <span className='material-icons' onClick={handleInbox}>inbox</span>
-                <span className='material-icons' onClick={handleSpam}>report</span>
-                <span className='material-icons' onClick={handleRemove}>delete</span>
-            </td>
-        )
-    }
+    return (
+        <div className={classes.menu}>
+            {options === 'spam' && <span className='material-icons' onClick={handleInbox}>restore</span>}
+            {options === 'trash' && <span className='material-icons' onClick={handleInbox}>restore</span>}
+            {options === 'inbox' && <span className='material-icons' onClick={handleSpam}>report</span>}
+            {options === 'trash' ?  <span className='material-icons' onClick={handleRemove}>delete</span> : <span className='material-icons' onClick={handleTrash}>delete</span>}
+        </div>
+    )
 };
 
 export default Menu;

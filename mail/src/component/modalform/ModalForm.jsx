@@ -7,7 +7,7 @@ const ModalForm = ({sendMail, collection, modal}) => {
 
     const addNewLetter = () => {
         const newLetter = {
-            _id: Date.now().toString(), ...post, type: 'send', checkbox: false
+           ...post, type: 'send', checkbox: false
         }
         collection.insertOne(newLetter);
         setPost({title: '', description: ''});
