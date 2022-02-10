@@ -1,41 +1,24 @@
-.header{
-    height: 40px;
-    border-radius: 16px 16px 0 0 ;
-    background: #232323;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.header button {
-    margin-right: 10px;
-    background: transparent;
-    border: none;
-    color: #ffff;
-}
-
-.header button:hover {
-    cursor: pointer;
+.modal__form {
+    text-align: center;
 }
 
 .input{
-    width: 80%;
     margin: 20px auto;
     height: 20px;
     border: 0 ;
     border-bottom: 1px black solid;
     outline: none;
+    width: 100%;
 }
 .textarea{
-    height: 40%;
     margin: 20px auto;
-    width: 80%;
     border: 1px solid #000;
     border-radius: 8px;
+    height: 250px;
+    width: 250px;
 }
 
 .button{
-    width: 50%;
     border-radius: 8px;
     border: 0;
     color: white;
@@ -44,7 +27,8 @@
     align-items: center;
     justify-content: center;
     margin: auto;
-    margin-bottom: 20px;
+    width: 50%;
+    padding: 10px;
 }
 .button:hover{
     cursor: pointer;

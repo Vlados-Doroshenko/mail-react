@@ -3,15 +3,13 @@ import * as Realm from "realm-web";
 import Header from "./component/header/Header";
 import Aplication from "./component/aplication/Aplication";
 import Modal from "./component/modal/Modal";
-import ModalForm from "./component/modalform/ModalForm";
 import Loader from "./component/Loader";
 import Detail from "./component/detail/Detail";
 import {API_KEY, SERVICE_NAME, DATABASE_NAME, COLLECTION_NAME, app} from "./connect/MongoDB";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import SettingMenu from "./component/settingMenu/SettingMenu";
-import './index.css';
-import 'materialize-css';
 import SideBar from "./component/sidebar/SideBar";
+import './index.css';
 
 const App = () => {
 
@@ -21,6 +19,8 @@ const App = () => {
 
     const [loader, setLoader] = useState(false);
 
+    const [activeModal, setActiveModal] = useState(false);
+
     useEffect(() => {
         const login = async () => {
             setLoader(true);
@@ -28,27 +28,13 @@ const App = () => {
             const client = app.currentUser.mongoClient(SERVICE_NAME);
             const collection = client.db(DATABASE_NAME).collection(COLLECTION_NAME);
             setCollection(collection);
-            // const item = await collection.find();
-            // setData(item);
 
             await setLoader(false);
         }
         login();
     }, [update]);
 
-    const [modal, setModal] = useState(false);
-
     // const [setting, setSetting] = useState(true);
-
-    const sendMail = (newMail) => {
-        // setData([...data, newMail]);
-        setUpdate(!update);
-        setModal(false);
-    }
-
-    const visible = () => {
-        setModal(true);
-    }
 
     if (loader) {
         return <Loader/>
@@ -57,11 +43,8 @@ const App = () => {
         return (
             <div>
                 <BrowserRouter>
-                    <Modal visible={modal}>
-                        <ModalForm sendMail={sendMail} modal={setModal} collection={collection}/>
-                    </Modal>
                     <Header/>
-                    <SideBar visible={visible} update={update} setUpdate={setUpdate}/>
+                    <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate}/>
                     {/*{setting ? '' :*/}
                     {/*    <SettingMenu collection={collection}/>}*/}
                     <Routes>
@@ -88,6 +71,7 @@ const App = () => {
                         <Route path="/:id" element={<Detail/>}/>
                     </Routes>
                 </BrowserRouter>
+                <Modal update={update} setUpdate={setUpdate} activeModal={activeModal} setActive={setActiveModal} collection={collection}/>
             </div>
         );
     }

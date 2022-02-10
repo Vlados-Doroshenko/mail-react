@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import classes from './sidebar.module.css';
 import {NavLink} from "react-router-dom";
 
-const SideBar = ({ visible, update, setUpdate }) => {
+const SideBar = ({ setModal, update, setUpdate }) => {
     const [active, setActive] = useState(false);
 
     return (
         <div className={classes.sidebar__wrappper}>
             <ul className={classes.sidebar__list}>
                 <li className={classes.sidebar__item}>
-                    <button className={classes.sidebar__btn_modal} onClick={visible}>
+                    <button className={classes.sidebar__btn_modal} onClick={() => setModal(true)}>
                         <span className="material-icons">add</span>
                         Create
                     </button>

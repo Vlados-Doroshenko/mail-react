@@ -35,6 +35,11 @@
     color: #000000;
 }
 
+.sidebar__item a:hover, .sidebar__btn_modal:hover {
+    color: #FF0000FF;
+    cursor: pointer;
+}
+
 .sidebar__item a {
     padding: 5px;
 }
