@@ -24,3 +24,76 @@ a {
   box-shadow: 0 0 7px 0 #000000;
 }
 
+.letter {
+  text-align: center;
+  position: relative;
+}
+
+.letter:hover{
+  background: #f1eeee;
+  cursor: pointer;
+}
+
+.letter_input{
+  margin: auto 20px;
+}
+
+.letter td {
+  border-bottom: 1px solid #000000;
+  border-top: 1px solid #000000;
+  padding: 5px;
+}
+
+.letter td:first-child {
+  border-left: 1px solid #000000;
+}
+
+.letter td:nth-child(n+1) {
+  border-right: 1px solid #000000;
+}
+
+.title{
+  margin: auto 20px;
+  position: relative;
+  z-index: 11;
+}
+
+.description{
+  vertical-align: middle;
+  text-align: center;
+  line-height: 45px;
+}
+
+.letter .content .menu:hover {
+  opacity: 1;
+}
+
+.menu{
+  display: flex;
+  opacity: 0;
+  position: absolute;
+  right: 25px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.menu span{
+  border-radius: 50%;
+  user-select: none;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 10px;
+  margin-right: 5px;
+}
+
+.setting {
+  display: flex;
+}
+
+.menu span:hover{
+  cursor: pointer;
+  color: #FF0000FF;
+  background: #ffffff;
+}
+
