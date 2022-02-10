@@ -69,22 +69,27 @@ const App = () => {
                     <Routes>
                         <Route path="/inbox"
                                element={<Aplication data={data} setData={setData}
+                                                    update={update} setUpdate={setUpdate}
                                                     collection={collection}
                                                     options={'inbox'}/>}/>
                         <Route path="/send"
                                element={<Aplication collection={collection} setData={setData}
                                                     data={data}
+                                                    update={update} setUpdate={setUpdate}
                                                     options={'send'}/>}/>
                         <Route path="/spam"
                                element={<Aplication collection={collection} setData={setData}
+                                                    update={update} setUpdate={setUpdate}
                                                     data={data}
                                                     options={'spam'}/>}/>
                         <Route path="/trash"
                                element={<Aplication collection={collection} setData={setData}
+                                                    update={update} setUpdate={setUpdate}
                                                     data={data}
                                                     options={'trash'}/>}/>
                         <Route path="/"
                                element={<Aplication collection={collection} setData={setData}
+                                                    update={update} setUpdate={setUpdate}
                                                     data={data}
                                                     options={'inbox'}/>}/>
                         <Route path="/:id" element={<Detail/>}/>

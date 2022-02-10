@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import Content from "../content/Content";
 import classes from './aplication.module.css'
 
-const Aplication = ({collection, data, options, setData}) => {
+const Aplication = ({collection, data, options, setData, update, setUpdate}) => {
 
     const handleRemoveData = (post) => {
         setData(data.filter(p => p._id !== post._id));
         collection.deleteOne({_id: post._id});
+        setUpdate(!update);
     }
 
     const handleSpam = (index) => {
@@ -18,9 +19,10 @@ const Aplication = ({collection, data, options, setData}) => {
             newData.push(a);
         })
         setData(newData);
-        collection.updateOne({_id: data._id}, {
-            title: data.title,
-            description: data.description,
+        setUpdate(!update);
+        collection.updateOne({_id: index._id}, {
+            title: index.title,
+            description: index.description,
             type: 'spam',
             cache: options
         });
@@ -35,6 +37,7 @@ const Aplication = ({collection, data, options, setData}) => {
             newData.push(a);
         })
         setData(newData);
+        setUpdate(!update);
         collection.updateOne({_id: index._id}, {
             title: index.title,
             description: index.description,
@@ -52,50 +55,12 @@ const Aplication = ({collection, data, options, setData}) => {
             newData.push(a);
         })
         setData(newData);
+        setUpdate(!update);
         collection.updateOne({_id: index._id}, {
             title: index.title,
             description: index.description,
             type: index.cache
         });
-    }
-
-    const multipleSpam = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'spam';
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        // setUpdate(!update);
-        // setSetting(index.checkbox);
-    }
-
-    const multipleTrash = (index) => {
-        let newData = []
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'trash';
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        // setUpdate(!update);
-        // setSetting(index.checkbox);
-    }
-
-    const multipleInbox = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'inbox';
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        // setUpdate(!update);
-        // setSetting(index.checkbox);
     }
 
     return (
