@@ -16,8 +16,15 @@ const Detail = ({collection}) => {
         find();
     }, []);
 
+    const onclick =  () => {
+        window.location.assign('./');
+    }
+
     return (
         <div className={classes.detail}>
+            <button type='button' onClick={(e) => onclick(e)}>
+                <span className="material-icons">arrow_back</span>
+            </button>
             <h2 className={classes.title}>{item.title}</h2>
             <span>{item.description}</span>
         </div>
