@@ -68,7 +68,7 @@ const App = () => {
                                element={<Aplication collection={collection}
                                                     update={update} setUpdate={setUpdate}
                                                     options={'inbox'}/>}/>
-                        <Route path="/:id" element={<Detail/>}/>
+                        <Route path="/:id" element={<Detail collection={collection}/>}/>
                     </Routes>
                 </BrowserRouter>
                 <Modal update={update} setUpdate={setUpdate} activeModal={activeModal} setActive={setActiveModal} collection={collection}/>

@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './header.module.css';
-import {NavLink} from "react-router-dom";
 import 'material-icons';
 
 

@@ -2,6 +2,7 @@ import React from 'react';
 import Menu from "../menu/Menu";
 import {Link} from "react-router-dom";
 import classes from './content.module.css';
+import classNames from "classnames";
 
 const Content = ({post, remove, spam, restore, options, trash}) => {
 
@@ -20,7 +21,7 @@ const Content = ({post, remove, spam, restore, options, trash}) => {
 
     return (
         <tr className='letter'>
-            <td className={classes.letter__td}>
+            <td className={classNames(classes.letter__td, classes.checkbox)}>
                 <input className={classes.letter_input} type='checkbox'/>
             </td>
             <td className={classes.letter__td}>
