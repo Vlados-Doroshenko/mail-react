@@ -15,8 +15,6 @@ import SideBar from "./component/sidebar/SideBar";
 
 const App = () => {
 
-    const [data, setData] = useState([]);
-
     const [collection, setCollection] = useState(null);
 
     const [update, setUpdate] = useState(true);
@@ -30,8 +28,8 @@ const App = () => {
             const client = app.currentUser.mongoClient(SERVICE_NAME);
             const collection = client.db(DATABASE_NAME).collection(COLLECTION_NAME);
             setCollection(collection);
-            const item = await collection.find();
-            setData(item);
+            // const item = await collection.find();
+            // setData(item);
 
             await setLoader(false);
         }
@@ -63,34 +61,29 @@ const App = () => {
                         <ModalForm sendMail={sendMail} modal={setModal} collection={collection}/>
                     </Modal>
                     <Header/>
-                    <SideBar visible={visible}/>
+                    <SideBar visible={visible} update={update} setUpdate={setUpdate}/>
                     {/*{setting ? '' :*/}
                     {/*    <SettingMenu collection={collection}/>}*/}
                     <Routes>
                         <Route path="/inbox"
-                               element={<Aplication data={data} setData={setData}
-                                                    update={update} setUpdate={setUpdate}
+                               element={<Aplication update={update} setUpdate={setUpdate}
                                                     collection={collection}
                                                     options={'inbox'}/>}/>
                         <Route path="/send"
-                               element={<Aplication collection={collection} setData={setData}
-                                                    data={data}
+                               element={<Aplication collection={collection}
                                                     update={update} setUpdate={setUpdate}
                                                     options={'send'}/>}/>
                         <Route path="/spam"
-                               element={<Aplication collection={collection} setData={setData}
+                               element={<Aplication collection={collection}
                                                     update={update} setUpdate={setUpdate}
-                                                    data={data}
                                                     options={'spam'}/>}/>
                         <Route path="/trash"
-                               element={<Aplication collection={collection} setData={setData}
+                               element={<Aplication collection={collection}
                                                     update={update} setUpdate={setUpdate}
-                                                    data={data}
                                                     options={'trash'}/>}/>
                         <Route path="/"
-                               element={<Aplication collection={collection} setData={setData}
+                               element={<Aplication collection={collection}
                                                     update={update} setUpdate={setUpdate}
-                                                    data={data}
                                                     options={'inbox'}/>}/>
                         <Route path="/:id" element={<Detail/>}/>
                     </Routes>

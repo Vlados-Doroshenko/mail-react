@@ -1,8 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Content from "../content/Content";
 import classes from './aplication.module.css'
 
-const Aplication = ({collection, data, options, setData, update, setUpdate}) => {
+
+const Aplication = ({collection, options, update, setUpdate}) => {
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const find = async () => {
+            const items = await collection.find({type: options});
+            setData(items);
+        }
+        find();
+    }, []);
 
     const handleRemoveData = (post) => {
         setData(data.filter(p => p._id !== post._id));
