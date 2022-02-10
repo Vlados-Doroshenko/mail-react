@@ -1,5 +1,5 @@
 import React from 'react';
-// import classes from './menu.module.css';
+import classes from './menu.module.css';
 
 const Menu = ({remove, post, spam, trash, restore, options}) => {
 
@@ -30,7 +30,7 @@ const Menu = ({remove, post, spam, trash, restore, options}) => {
     return (
         <div className='menu'>
             <div></div>
-            <div className='setting'>
+            <div className={classes.setting}>
                 {options === 'spam' && <span className='material-icons' onClick={handleRestore}>restore</span>}
                 {options === 'trash' && <span className='material-icons' onClick={handleRestore}>restore</span>}
                 {options === 'inbox' && <span className='material-icons' onClick={handleSpam}>report</span>}

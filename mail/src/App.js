@@ -43,7 +43,7 @@ const App = () => {
         return (
             <div>
                 <BrowserRouter>
-                    <Header/>
+                    <Header collection={collection} update={update} setUpdate={setUpdate}/>
                     <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate}/>
                     {/*{setting ? '' :*/}
                     {/*    <SettingMenu collection={collection}/>}*/}

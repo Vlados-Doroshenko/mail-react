@@ -1,3 +1,33 @@
+.letter_input{
+    margin: auto 20px;
+}
+
+.letter__td {
+    border-bottom: 1px solid #000000;
+    border-top: 1px solid #000000;
+    padding: 5px;
+}
+
+.letter__td:first-child {
+    border-left: 1px solid #000000;
+}
+
+.letter__td:nth-child(n+1) {
+    border-right: 1px solid #000000;
+}
+
+.title{
+    margin: auto 20px;
+    position: relative;
+    z-index: 11;
+}
+
+.description{
+    vertical-align: middle;
+    text-align: center;
+    line-height: 45px;
+}
+
 .info {
     display: flex;
     align-items: center;

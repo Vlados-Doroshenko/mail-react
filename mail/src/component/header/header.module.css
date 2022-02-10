@@ -2,6 +2,8 @@
     display: flex;
     background: #f1eeee;
     justify-content: space-around;
+    box-shadow: 0 0 7px 0 #000000;
+    padding: 10px;
 }
 
 .brand {

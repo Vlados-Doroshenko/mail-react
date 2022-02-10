@@ -90,7 +90,6 @@ const Aplication = ({collection, options, update, setUpdate}) => {
                     <th>
                         <input type='checkbox'/>
                     </th>
-                    <th>Title</th>
                     <th></th>
                 </tr>
                 </thead>

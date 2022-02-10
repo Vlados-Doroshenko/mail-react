@@ -34,37 +34,7 @@ a {
   cursor: pointer;
 }
 
-.letter_input{
-  margin: auto 20px;
-}
-
-.letter td {
-  border-bottom: 1px solid #000000;
-  border-top: 1px solid #000000;
-  padding: 5px;
-}
-
-.letter td:first-child {
-  border-left: 1px solid #000000;
-}
-
-.letter td:nth-child(n+1) {
-  border-right: 1px solid #000000;
-}
-
-.title{
-  margin: auto 20px;
-  position: relative;
-  z-index: 11;
-}
-
-.description{
-  vertical-align: middle;
-  text-align: center;
-  line-height: 45px;
-}
-
-.letter .content .menu:hover {
+.letter .menu:hover {
   opacity: 1;
 }
 
@@ -87,13 +57,10 @@ a {
   margin-right: 5px;
 }
 
-.setting {
-  display: flex;
-}
-
 .menu span:hover{
   cursor: pointer;
   color: #FF0000FF;
   background: #ffffff;
+  box-shadow: 0 0 7px 0 #000000;
 }
 
