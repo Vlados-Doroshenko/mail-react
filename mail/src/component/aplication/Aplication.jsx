@@ -99,16 +99,16 @@ const Aplication = ({collection, options, update, setUpdate}) => {
                     <th>
                         <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
                     </th>
-                    {!multipleCheck && !check ? '' :
+                    {!multipleCheck && check[0] === false || check[1] === false ? '' :
                         <SettingMenu check={check} setCheck={setCheck} options={options} multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data} collection={collection} spam={handleSpam} trash={handleTrash}
                                      restore={handleRestore} remove={handleRemoveData}/>}
                 </tr>
                 </thead>
                 <tbody>
                 {
-                    data.map((post) =>
+                    data.map((post, key) =>
                         post.type === options &&
-                        <Content check={check} setCheck={setCheck} setMultipleCheck={setMultipleCheck} multipleCheck={multipleCheck} remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
+                        <Content data={data} key={key} check={check} setCheck={setCheck} setMultipleCheck={setMultipleCheck} multipleCheck={multipleCheck} remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
                                  restore={handleRestore}
                                  post={post} options={options}/>
                     )

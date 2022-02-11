@@ -7,7 +7,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.preventDefault();
         e.stopPropagation();
         data.forEach(item => {
-            if (check === true || multipleCheck === true) {
+            if (check[0] === true || check[1] === true || multipleCheck === true) {
                 spam(item);
             }
         });
@@ -17,7 +17,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.preventDefault();
         e.stopPropagation();
         data.forEach(item => {
-            if (check === true || multipleCheck === true) {
+            if (check[0] === true || check[1] === true || multipleCheck === true) {
                 remove(item);
             }
         });
@@ -27,7 +27,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.stopPropagation();
         e.preventDefault();
         data.forEach(item => {
-            if (check === true || multipleCheck === true) {
+            if (check[0] === true || check[1] === true || multipleCheck === true) {
                 restore(item);
             }
         });
@@ -37,7 +37,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.stopPropagation();
         e.preventDefault();
         data.forEach(item => {
-            if (check === true || multipleCheck === true) {
+            if (check[0] === true || check[1] === true || multipleCheck === true) {
                 trash(item);
             }
         });

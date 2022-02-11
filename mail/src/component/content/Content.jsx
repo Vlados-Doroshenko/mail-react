@@ -19,11 +19,19 @@ const Content = ({post, remove, spam, restore, options, trash, multipleCheck, se
         lengthDescription = !lengthDescription;
     }
 
+    const handleOnChange = (e) => {
+        const {name, checked} = e.target;
+        const updatedCheckedState = data.map((item) =>
+            item._id == name ? item : checked
+        );
+        setCheck(updatedCheckedState);
+    };
+
     return (
         <tr className='letter'>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
                 {multipleCheck === false ?
-                    <input className={classes.letter_input} name={post._id} checked={check} onChange={() => setCheck(!check)}
+                    <input className={classes.letter_input} name={post._id} checked={setCheck[check]} onChange={handleOnChange}
                            type='checkbox'/> :
                     <input className={classes.letter_input} checked={multipleCheck} onChange={setMultipleCheck}
                            type='checkbox'/>
