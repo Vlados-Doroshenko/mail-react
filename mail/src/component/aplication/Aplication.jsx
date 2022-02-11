@@ -8,6 +8,14 @@ const Aplication = ({collection, options, update, setUpdate}) => {
 
     const [data, setData] = useState([]);
 
+    const [multipleCheck, setMultipleCheck] = useState(false);
+
+    const [check, setCheck] = useState(false);
+
+    const multipleCheckbox = ({ target: { checked } }) => {
+        setMultipleCheck(checked);
+    };
+
     useEffect(() => {
         const find = async () => {
             const items = await collection.find({type: options});
@@ -75,12 +83,6 @@ const Aplication = ({collection, options, update, setUpdate}) => {
         });
     }
 
-    const [check, setCheck] = useState(false);
-
-    const soldCheckbox = ({ target: { checked } }) => {
-        setCheck(checked);
-    };
-
     return (
         <div className={classes.aplication}>
             {!data.length ?
@@ -95,10 +97,10 @@ const Aplication = ({collection, options, update, setUpdate}) => {
                 <thead>
                 <tr>
                     <th>
-                        <input type='checkbox' checked={check} onChange={soldCheckbox}/>
+                        <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
                     </th>
-                    {!check ? '' :
-                        <SettingMenu options={options} check={check} setCheck={setCheck} data={data} collection={collection} spam={handleSpam} trash={handleTrash}
+                    {!multipleCheck && !check ? '' :
+                        <SettingMenu check={check} setCheck={setCheck} options={options} multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data} collection={collection} spam={handleSpam} trash={handleTrash}
                                      restore={handleRestore} remove={handleRemoveData}/>}
                 </tr>
                 </thead>
@@ -106,7 +108,7 @@ const Aplication = ({collection, options, update, setUpdate}) => {
                 {
                     data.map((post) =>
                         post.type === options &&
-                        <Content setCheck={setCheck} check={check} remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
+                        <Content check={check} setCheck={setCheck} setMultipleCheck={setMultipleCheck} multipleCheck={multipleCheck} remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
                                  restore={handleRestore}
                                  post={post} options={options}/>
                     )
