@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Content from "../content/Content";
 import classes from './aplication.module.css'
+import SettingMenu from "../settingMenu/SettingMenu";
 
 
 const Aplication = ({collection, options, update, setUpdate}) => {
@@ -74,6 +75,12 @@ const Aplication = ({collection, options, update, setUpdate}) => {
         });
     }
 
+    const [check, setCheck] = useState(false);
+
+    const soldCheckbox = ({ target: { checked } }) => {
+        setCheck(checked);
+    };
+
     return (
         <div className={classes.aplication}>
             {!data.length ?
@@ -88,16 +95,18 @@ const Aplication = ({collection, options, update, setUpdate}) => {
                 <thead>
                 <tr>
                     <th>
-                        <input type='checkbox'/>
+                        <input type='checkbox' checked={check} onChange={soldCheckbox}/>
                     </th>
-                    <th></th>
+                    {!check ? '' :
+                        <SettingMenu options={options} check={check} setCheck={setCheck} data={data} collection={collection} spam={handleSpam} trash={handleTrash}
+                                     restore={handleRestore} remove={handleRemoveData}/>}
                 </tr>
                 </thead>
                 <tbody>
                 {
                     data.map((post) =>
                         post.type === options &&
-                        <Content remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
+                        <Content setCheck={setCheck} check={check} remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
                                  restore={handleRestore}
                                  post={post} options={options}/>
                     )

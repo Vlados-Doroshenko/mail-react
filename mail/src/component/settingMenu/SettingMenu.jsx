@@ -1,26 +1,34 @@
 import React from 'react';
 import classes from './settingmenu.module.css';
 
-const SettingMenu = ({spam, inbox, trash, post, collection}) => {
+const SettingMenu = ({spam, restore, trash, data, check, options, remove}) => {
 
     const multipleSpam = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        post.forEach(item => {
-            if (item.checkbox === true) {
+        data.forEach(item => {
+            if (check === true) {
                 spam(item);
-                collection.updateMany({_id: item._id}, {title: item.title, description: item.description, type: 'spam', checkbox: false});
             }
         });
     }
 
-    const multipleInbox = (e) => {
+    const multipleRemove = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        data.forEach(item => {
+            if (check === true) {
+                remove(item);
+            }
+        });
+    }
+
+    const multipleRestore = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        post.forEach(item => {
-            if (item.checkbox === true) {
-                inbox(item);
-                collection.updateMany({_id: item._id}, {title: item.title, description: item.description, type: 'inbox', checkbox: false});
+        data.forEach(item => {
+            if (check === true) {
+                restore(item);
             }
         });
     }
@@ -28,22 +36,24 @@ const SettingMenu = ({spam, inbox, trash, post, collection}) => {
     const multipleTrash = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        post.forEach(item => {
-            if (item.checkbox === true) {
+        data.forEach(item => {
+            if (check === true) {
                 trash(item);
-                collection.updateMany({_id: item._id}, {title: item.title, description: item.description, type: 'trash', checkbox: false});
             }
         });
     }
 
     return (
-        <div className={classes.setting}>
+        <th className={classes.setting}>
             <div>
-                <span className='material-icons' onClick={multipleInbox}>inbox</span>
-                <span className='material-icons' onClick={multipleSpam}>report</span>
+                {options === 'spam' && <span className='material-icons' onClick={multipleRestore}>restore</span>}
+                {options === 'trash' && <span className='material-icons' onClick={multipleRestore}>restore</span>}
+                {options === 'inbox' && <span className='material-icons' onClick={multipleSpam}>report</span>}
+                {options === 'trash' ? <span className='material-icons' onClick={multipleRemove}>delete</span> :
                 <span className='material-icons' onClick={multipleTrash}>delete</span>
+                }
             </div>
-        </div>
+        </th>
     );
 };
 
