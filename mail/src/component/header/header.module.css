@@ -30,4 +30,27 @@
     cursor: pointer;
 }
 
+.search__wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.search {
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 0 7px 0 #000000;
+    border: 1px solid #000000;
+}
+
+.search__btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.search__btn:hover {
+    text-shadow: 0px 0px 1px #e53935, 0px 0px 3px #e53935, 0px 0px 5px #e53935;
+    color: #fff;
+}
+
 

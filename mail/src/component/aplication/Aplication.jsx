@@ -4,7 +4,7 @@ import classes from './aplication.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 
 
-const Aplication = ({collection, options, update, setUpdate}) => {
+const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
     const [data, setData] = useState([]);
 
@@ -12,14 +12,19 @@ const Aplication = ({collection, options, update, setUpdate}) => {
 
     const [check, setCheck] = useState(false);
 
-    const multipleCheckbox = ({ target: { checked } }) => {
+    const multipleCheckbox = ({target: {checked}}) => {
         setMultipleCheck(checked);
     };
 
     useEffect(() => {
         const find = async () => {
-            const items = await collection.find({type: options});
-            setData(items);
+            if(valueSearch) {
+                const items = await collection.find({title: valueSearch});
+                setData(items);
+            } else {
+                const items = await collection.find({type: options});
+                setData(items);
+            }
         }
         find();
     }, []);
@@ -37,7 +42,7 @@ const Aplication = ({collection, options, update, setUpdate}) => {
                 a.type = 'spam';
             }
             newData.push(a);
-        })
+        });
         setData(newData);
         setUpdate(!update);
         collection.updateOne({_id: index._id}, {
@@ -86,39 +91,42 @@ const Aplication = ({collection, options, update, setUpdate}) => {
     return (
         <div className={classes.aplication}>
             {!data.length ?
-            <h1 className={classes.aplication__content}>
-                {options === 'inbox' ? 'The inbox is empty' : ''}
-                {options === 'trash' ? 'The trash is empty' : ''}
-                {options === 'send' ? 'You haven\'t sent any messages yet' : ''}
-                {options === 'spam' ? 'The spam is empty' : ''}
-            </h1>
+                <h1 className={classes.aplication__content}>
+                    {options === 'inbox' ? 'The inbox is empty' : ''}
+                    {options === 'trash' ? 'The trash is empty' : ''}
+                    {options === 'send' ? 'You haven\'t sent any messages yet' : ''}
+                    {options === 'spam' ? 'The spam is empty' : ''}
+                </h1>
                 :
-            <table cellspacing="0">
-                <thead>
-                <tr>
-                    <th>
-                        <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
-                    </th>
-                    {!multipleCheck && check[0] === false || check[1] === false ? '' :
-                        <SettingMenu check={check} setCheck={setCheck} options={options} multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data} collection={collection} spam={handleSpam} trash={handleTrash}
-                                     restore={handleRestore} remove={handleRemoveData}/>}
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    data.map((post, key) =>
-                        post.type === options &&
-                        <Content data={data} key={key} check={check} setCheck={setCheck} setMultipleCheck={setMultipleCheck} multipleCheck={multipleCheck} remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
-                                 restore={handleRestore}
-                                 post={post} options={options}/>
-                    )
-                }
-                </tbody>
-            </table>
+                <table cellSpacing="0">
+                    <thead>
+                    <tr>
+                        <th>
+                            <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
+                        </th>
+                        {!multipleCheck && check[0] === false || check[1] === false ? '' :
+                            <SettingMenu check={check} setCheck={setCheck} options={options}
+                                         multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
+                                         collection={collection} spam={handleSpam} trash={handleTrash}
+                                         restore={handleRestore} remove={handleRemoveData}/>}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        data.map((post, key) =>
+                            post.type === options &&
+                            <Content data={data} key={key} check={check} setCheck={setCheck}
+                                     setMultipleCheck={setMultipleCheck} multipleCheck={multipleCheck}
+                                     remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
+                                     restore={handleRestore}
+                                     post={post} options={options}/>
+                        )
+                    }
+                    </tbody>
+                </table>
             }
         </div>
-)
-    ;
+    );
 };
 
 export default Aplication;

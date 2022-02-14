@@ -21,6 +21,8 @@ const App = () => {
 
     const [activeModal, setActiveModal] = useState(false);
 
+    const [valueSearch, setValueSearch] = useState('');
+
     useEffect(() => {
         const login = async () => {
             setLoader(true);
@@ -41,27 +43,27 @@ const App = () => {
         return (
             <div>
                 <BrowserRouter>
-                    <Header collection={collection} update={update} setUpdate={setUpdate}/>
+                    <Header update={update} setUpdate={setUpdate} setValueSearch={setValueSearch} valueSearch={valueSearch}/>
                     <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate}/>
                     <Routes>
                         <Route path="/inbox"
-                               element={<Aplication update={update} setUpdate={setUpdate}
+                               element={<Aplication valueSearch={valueSearch} update={update} setUpdate={setUpdate}
                                                     collection={collection}
                                                     options={'inbox'}/>}/>
                         <Route path="/send"
-                               element={<Aplication collection={collection}
+                               element={<Aplication valueSearch={valueSearch} collection={collection}
                                                     update={update} setUpdate={setUpdate}
                                                     options={'send'}/>}/>
                         <Route path="/spam"
-                               element={<Aplication collection={collection}
+                               element={<Aplication valueSearch={valueSearch} collection={collection}
                                                     update={update} setUpdate={setUpdate}
                                                     options={'spam'}/>}/>
                         <Route path="/trash"
-                               element={<Aplication collection={collection}
+                               element={<Aplication valueSearch={valueSearch} collection={collection}
                                                     update={update} setUpdate={setUpdate}
                                                     options={'trash'}/>}/>
                         <Route path="/"
-                               element={<Aplication collection={collection}
+                               element={<Aplication valueSearch={valueSearch} collection={collection}
                                                     update={update} setUpdate={setUpdate}
                                                     options={'inbox'}/>}/>
                         <Route path="/:id" element={<Detail collection={collection}/>}/>
