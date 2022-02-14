@@ -15,7 +15,7 @@ const Header = ({valueSearch, setValueSearch, update, setUpdate}) => {
                 <div className={classes.search__wrapper}>
                     <input className={classes.search} type="search" placeholder="Search here!" value={valueSearch}
                            onChange={e => setValueSearch(e.target.value)}/>
-                    <button className={classes.search__btn} type="submit" name="submit" disabled={!valueSearch}
+                    <button className={classes.search__btn} type="submit" name="submit" disabled={valueSearch.length < 3}
                             onClick={() => setUpdate(!update)}>
                         <span className="material-icons">search</span>
                     </button>

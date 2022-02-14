@@ -35,6 +35,11 @@
     background: greenyellow;
     color: black;
 }
+
+.button:active:disabled {
+    border-style: outset;
+    background: silver;
+}
 .modalContent{
     background: white;
     border-radius: 16px;
