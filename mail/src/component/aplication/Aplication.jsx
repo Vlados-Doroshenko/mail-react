@@ -17,75 +17,125 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     };
 
     useEffect(() => {
-        const find = async () => {
+        const findMail = async () => {
             if(valueSearch) {
-                const items = await collection.find({title: valueSearch});
+                const items = await collection.find({title: valueSearch, type: `${options}`});
                 setData(items);
             } else {
-                const items = await collection.find({type: options});
+                const items = await collection.find({type: `${options}`});
                 setData(items);
             }
         }
-        find();
+        findMail();
     }, []);
 
     const handleRemoveData = (post) => {
-        setData(data.filter(p => p._id !== post._id));
-        collection.deleteOne({_id: post._id});
-        setUpdate(!update);
+        if(!check.length) {
+            setData(data.filter(p => p._id !== post._id));
+            collection.deleteOne({_id: post._id});
+            setUpdate(!update);
+        } else {
+            check.forEach(item => {
+                if (item._id == post._id) {
+                    collection.deleteOne({_id: post._id});
+                }
+            });
+            setUpdate(!update);
+        }
     }
 
     const handleSpam = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'spam';
-            }
-            newData.push(a);
-        });
-        setData(newData);
-        setUpdate(!update);
-        collection.updateOne({_id: index._id}, {
-            title: index.title,
-            description: index.description,
-            type: 'spam',
-            cache: options
-        });
+        if(!check.length) {
+            let newData = [];
+            data.forEach((a) => {
+                if (a === index) {
+                    a.type = 'spam';
+                }
+                newData.push(a);
+            });
+            setData(newData);
+            setUpdate(!update);
+            collection.updateOne({_id: index._id}, {
+                title: index.title,
+                description: index.description,
+                type: 'spam',
+                cache: options
+            });
+        } else {
+            check.forEach(item => {
+                if (item._id == index._id) {
+                    collection.updateOne({_id: index._id}, {
+                        title: index.title,
+                        description: index.description,
+                        type: 'spam',
+                        cache: options
+                    });
+                }
+            });
+            setUpdate(!update);
+        }
     }
 
     const handleTrash = (index) => {
-        let newData = []
-        data.forEach((a) => {
-            if (a === index) {
-                a.type = 'trash';
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        setUpdate(!update);
-        collection.updateOne({_id: index._id}, {
-            title: index.title,
-            description: index.description,
-            type: 'trash',
-            cache: options
-        });
+        if(!check.length) {
+            let newData = []
+            data.forEach((a) => {
+                if (a === index) {
+                    a.type = 'trash';
+                }
+                newData.push(a);
+            })
+            setData(newData);
+            setUpdate(!update);
+            collection.updateOne({_id: index._id}, {
+                title: index.title,
+                description: index.description,
+                type: 'trash',
+                cache: options
+            });
+        } else {
+            check.forEach(item => {
+                if (item._id == index._id) {
+                    collection.updateOne({_id: index._id}, {
+                        title: index.title,
+                        description: index.description,
+                        type: 'trash',
+                        cache: options
+                    });
+                }
+            });
+            setUpdate(!update);
+        }
     }
 
     const handleRestore = (index) => {
-        let newData = [];
-        data.forEach((a) => {
-            if (a === index) {
-                a.where = index.where;
-            }
-            newData.push(a);
-        })
-        setData(newData);
-        setUpdate(!update);
-        collection.updateOne({_id: index._id}, {
-            title: index.title,
-            description: index.description,
-            type: index.cache
-        });
+        if(!check.length) {
+            let newData = [];
+            data.forEach((a) => {
+                if (a === index) {
+                    a.where = index.where;
+                }
+                newData.push(a);
+            })
+            setData(newData);
+            setUpdate(!update);
+            collection.updateOne({_id: index._id}, {
+                title: index.title,
+                description: index.description,
+                type: index.cache
+            });
+        } else {
+            check.forEach(item => {
+                if (item._id == index._id) {
+                    collection.updateOne({_id: index._id}, {
+                        title: index.title,
+                        description: index.description,
+                        type: index.cache
+                    });
+                }
+            });
+            setUpdate(!update);
+        }
     }
 
     return (
@@ -104,7 +154,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                         <th>
                             <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
                         </th>
-                        {!multipleCheck && check[0] === false || check[1] === false ? '' :
+                        {multipleCheck === false && check[0] === false || check[1] === false ? '' :
                             <SettingMenu check={check} setCheck={setCheck} options={options}
                                          multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
                                          collection={collection} spam={handleSpam} trash={handleTrash}

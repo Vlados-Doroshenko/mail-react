@@ -44,7 +44,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
     }
 
     return (
-        <th className={classes.setting}>
+        <div className={classes.setting}>
             <div>
                 {options === 'spam' && <span className='material-icons' onClick={multipleRestore}>restore</span>}
                 {options === 'trash' && <span className='material-icons' onClick={multipleRestore}>restore</span>}
@@ -53,7 +53,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
                 <span className='material-icons' onClick={multipleTrash}>delete</span>
                 }
             </div>
-        </th>
+        </div>
     );
 };
 
