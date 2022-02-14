@@ -35,7 +35,7 @@ const Menu = ({remove, post, spam, trash, restore, options}) => {
                 {options === 'trash' && <span className='material-icons' onClick={handleRestore}>restore</span>}
                 {options === 'inbox' && <span className='material-icons' onClick={handleSpam}>report</span>}
                 {options === 'trash' ? <span className='material-icons' onClick={handleRemove}>delete</span> :
-                <span className='material-icons' onClick={handleTrash}>delete</span>}
+                    <span className='material-icons' onClick={handleTrash}>delete</span>}
             </div>
         </div>
     )

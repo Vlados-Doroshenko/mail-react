@@ -18,7 +18,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
     useEffect(() => {
         const findMail = async () => {
-            if(valueSearch) {
+            if (valueSearch) {
                 const items = await collection.find({title: valueSearch, type: `${options}`});
                 setData(items);
             } else {
@@ -30,7 +30,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     }, []);
 
     const handleRemoveData = (post) => {
-        if(!check.length) {
+        if (!check.length) {
             setData(data.filter(p => p._id !== post._id));
             collection.deleteOne({_id: post._id});
             setUpdate(!update);
@@ -45,7 +45,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     }
 
     const handleSpam = (index) => {
-        if(!check.length) {
+        if (!check.length) {
             let newData = [];
             data.forEach((a) => {
                 if (a === index) {
@@ -77,7 +77,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     }
 
     const handleTrash = (index) => {
-        if(!check.length) {
+        if (!check.length) {
             let newData = []
             data.forEach((a) => {
                 if (a === index) {
@@ -109,7 +109,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     }
 
     const handleRestore = (index) => {
-        if(!check.length) {
+        if (!check.length) {
             let newData = [];
             data.forEach((a) => {
                 if (a === index) {
@@ -154,11 +154,18 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                         <th>
                             <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
                         </th>
-                        {multipleCheck === false && check[0] === false || check[1] === false ? '' :
+                        {multipleCheck === false ? '' :
                             <SettingMenu check={check} setCheck={setCheck} options={options}
                                          multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
                                          collection={collection} spam={handleSpam} trash={handleTrash}
-                                         restore={handleRestore} remove={handleRemoveData}/>}
+                                         restore={handleRestore} remove={handleRemoveData}/>
+                        }
+                        {check === false || check[0] === false || check[1] === false ? '' :
+                            <SettingMenu check={check} setCheck={setCheck} options={options}
+                                         multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
+                                         collection={collection} spam={handleSpam} trash={handleTrash}
+                                         restore={handleRestore} remove={handleRemoveData}/>
+                        }
                     </tr>
                     </thead>
                     <tbody>

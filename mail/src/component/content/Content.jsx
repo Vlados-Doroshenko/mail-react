@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import classes from './content.module.css';
 import classNames from "classnames";
 
-const Content = ({post, remove, spam, restore, options, trash, multipleCheck, setMultipleCheck, check, setCheck, collection, data}) => {
+const Content = ({post, remove, spam, restore, options, trash, multipleCheck, setMultipleCheck, check, setCheck, data}) => {
 
     let lengthTitle, lengthDescription = false;
 

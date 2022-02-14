@@ -5,9 +5,8 @@ import Aplication from "./component/aplication/Aplication";
 import Modal from "./component/modal/Modal";
 import Loader from "./component/Loader";
 import Detail from "./component/detail/Detail";
-import {API_KEY, SERVICE_NAME, DATABASE_NAME, COLLECTION_NAME, app} from "./connect/MongoDB";
+import {API_KEY, app, COLLECTION_NAME, DATABASE_NAME, SERVICE_NAME} from "./connect/MongoDB";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import SettingMenu from "./component/settingMenu/SettingMenu";
 import SideBar from "./component/sidebar/SideBar";
 import './index.css';
 
@@ -43,7 +42,8 @@ const App = () => {
         return (
             <div>
                 <BrowserRouter>
-                    <Header update={update} setUpdate={setUpdate} setValueSearch={setValueSearch} valueSearch={valueSearch}/>
+                    <Header update={update} setUpdate={setUpdate} setValueSearch={setValueSearch}
+                            valueSearch={valueSearch}/>
                     <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate}/>
                     <Routes>
                         <Route path="/inbox"
@@ -69,7 +69,8 @@ const App = () => {
                         <Route path="/:id" element={<Detail collection={collection}/>}/>
                     </Routes>
                 </BrowserRouter>
-                <Modal update={update} setUpdate={setUpdate} activeModal={activeModal} setActive={setActiveModal} collection={collection}/>
+                <Modal update={update} setUpdate={setUpdate} activeModal={activeModal} setActive={setActiveModal}
+                       collection={collection}/>
             </div>
         );
     }

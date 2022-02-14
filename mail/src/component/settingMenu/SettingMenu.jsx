@@ -7,7 +7,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.preventDefault();
         e.stopPropagation();
         data.forEach(item => {
-            if (check[0] === true || check[1] === true || multipleCheck === true) {
+            if (check[0] === true || check[1] === true || multipleCheck === true || check.length === 1) {
                 spam(item);
             }
         });
@@ -17,7 +17,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.preventDefault();
         e.stopPropagation();
         data.forEach(item => {
-            if (check[0] === true || check[1] === true || multipleCheck === true) {
+            if (check[0] === true || check[1] === true || multipleCheck === true || check.length === 1) {
                 remove(item);
             }
         });
@@ -27,7 +27,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.stopPropagation();
         e.preventDefault();
         data.forEach(item => {
-            if (check[0] === true || check[1] === true || multipleCheck === true) {
+            if (check[0] === true || check[1] === true || multipleCheck === true || check.length === 1) {
                 restore(item);
             }
         });
@@ -37,7 +37,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.stopPropagation();
         e.preventDefault();
         data.forEach(item => {
-            if (check[0] === true || check[1] === true || multipleCheck === true) {
+            if (check[0] === true || check[1] === true || multipleCheck === true || check.length === 1) {
                 trash(item);
             }
         });
@@ -50,7 +50,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
                 {options === 'trash' && <span className='material-icons' onClick={multipleRestore}>restore</span>}
                 {options === 'inbox' && <span className='material-icons' onClick={multipleSpam}>report</span>}
                 {options === 'trash' ? <span className='material-icons' onClick={multipleRemove}>delete</span> :
-                <span className='material-icons' onClick={multipleTrash}>delete</span>
+                    <span className='material-icons' onClick={multipleTrash}>delete</span>
                 }
             </div>
         </div>

@@ -13,8 +13,10 @@ const Header = ({valueSearch, setValueSearch, update, setUpdate}) => {
                     Mail
                 </a>
                 <div className={classes.search__wrapper}>
-                    <input className={classes.search} type="search" placeholder="Search here!" value={valueSearch} onChange={e => setValueSearch(e.target.value)}/>
-                    <button className={classes.search__btn} type="submit" name="submit" disabled={!valueSearch} onClick={() => setUpdate(!update)}>
+                    <input className={classes.search} type="search" placeholder="Search here!" value={valueSearch}
+                           onChange={e => setValueSearch(e.target.value)}/>
+                    <button className={classes.search__btn} type="submit" name="submit" disabled={!valueSearch}
+                            onClick={() => setUpdate(!update)}>
                         <span className="material-icons">search</span>
                     </button>
                 </div>
