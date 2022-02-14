@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import classes from './content.module.css';
 import classNames from "classnames";
 
-const Content = ({post, remove, spam, restore, options, trash, multipleCheck, setMultipleCheck, check, setCheck, data}) => {
+const Content = ({post, remove, spam, restore, options, trash, multipleCheck, setMultipleCheck, check, setCheck, data, collection, setUpdate, update}) => {
 
     let lengthTitle, lengthDescription = false;
 
@@ -27,8 +27,20 @@ const Content = ({post, remove, spam, restore, options, trash, multipleCheck, se
         setCheck(updatedCheckedState);
     };
 
+    const handleReview = (index) => {
+        if(post._id === index) {
+            collection.updateOne({_id: index._id}, {
+                title: index.title,
+                description: index.description,
+                type: index.type,
+                review: true
+            });
+        }
+        setUpdate(!update);
+    }
+
     return (
-        <tr className='letter'>
+        <tr className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
                 {multipleCheck === false ?
                     <input className={classes.letter_input} name={post._id} checked={setCheck[check]} onChange={handleOnChange}
@@ -39,7 +51,7 @@ const Content = ({post, remove, spam, restore, options, trash, multipleCheck, se
             </td>
             <td className={classes.letter__td}>
                 <div className={classes.info}>
-                    <Link to={`/${post._id}`}>
+                    <Link to={`/${post._id}`} onClick={handleReview}>
                         <h2 className={classes.title}>{post.title.substr(0, symbolTitle)}{lengthTitle && '...'}</h2>
                     </Link>
                     <span

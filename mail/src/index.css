@@ -29,6 +29,10 @@ a {
   position: relative;
 }
 
+.not_review {
+  background: #ff00003d;
+}
+
 .letter:hover{
   background: #f1eeee;
   cursor: pointer;

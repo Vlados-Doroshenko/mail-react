@@ -30,6 +30,7 @@ const App = () => {
             const collection = client.db(DATABASE_NAME).collection(COLLECTION_NAME);
             setCollection(collection);
 
+
             await setLoader(false);
         }
         login();
@@ -44,7 +45,7 @@ const App = () => {
                 <BrowserRouter>
                     <Header update={update} setUpdate={setUpdate} setValueSearch={setValueSearch}
                             valueSearch={valueSearch}/>
-                    <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate}/>
+                    <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate} collection={collection}/>
                     <Routes>
                         <Route path="/inbox"
                                element={<Aplication valueSearch={valueSearch} update={update} setUpdate={setUpdate}

@@ -37,7 +37,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         } else {
             check.forEach(item => {
                 if (item._id == post._id) {
-                    collection.deleteOne({_id: post._id});
+                    collection.deleteMany({_id: post._id});
                 }
             });
             setUpdate(!update);
@@ -59,12 +59,13 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                 title: index.title,
                 description: index.description,
                 type: 'spam',
-                cache: options
+                cache: options,
+
             });
         } else {
             check.forEach(item => {
                 if (item._id == index._id) {
-                    collection.updateOne({_id: index._id}, {
+                    collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
                         type: 'spam',
@@ -96,7 +97,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         } else {
             check.forEach(item => {
                 if (item._id == index._id) {
-                    collection.updateOne({_id: index._id}, {
+                    collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
                         type: 'trash',
@@ -127,7 +128,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         } else {
             check.forEach(item => {
                 if (item._id == index._id) {
-                    collection.updateOne({_id: index._id}, {
+                    collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
                         type: index.cache
@@ -175,7 +176,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                             <Content data={data} key={key} check={check} setCheck={setCheck}
                                      setMultipleCheck={setMultipleCheck} multipleCheck={multipleCheck}
                                      remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
-                                     restore={handleRestore}
+                                     restore={handleRestore} collection={collection}
+                                     update={update} setUpdate={setUpdate}
                                      post={post} options={options}/>
                         )
                     }

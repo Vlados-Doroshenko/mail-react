@@ -20,6 +20,7 @@
 
 .sidebar__item {
     margin: 10px 0;
+    position: relative;
 }
 
 .sidebar__btn_modal {
@@ -42,4 +43,19 @@
 
 .sidebar__item a {
     padding: 5px;
+}
+
+.count {
+    background: #000000;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: -10px;
+    border-radius: 50%;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    color: #f1eeee;
 }
