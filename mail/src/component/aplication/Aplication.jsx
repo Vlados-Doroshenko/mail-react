@@ -124,6 +124,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                 title: index.title,
                 description: index.description,
                 type: index.cache,
+                review: index.review
             });
         } else {
             check.forEach(item => {

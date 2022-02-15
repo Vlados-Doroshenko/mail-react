@@ -11,7 +11,7 @@ const SideBar = ({setModal, update, setUpdate, collection}) => {
         const countMail = async () => {
             const items = await collection.find({review: false});
             items.forEach(item => {
-                if(item.review === false) {
+                if(item.review === false && item.type === 'inbox') {
                     setCount(items.length);
                 }
             });
