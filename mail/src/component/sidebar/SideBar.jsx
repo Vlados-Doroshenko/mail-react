@@ -2,16 +2,14 @@ import React, {useEffect, useState} from 'react';
 import classes from './sidebar.module.css';
 import {NavLink} from "react-router-dom";
 
-const SideBar = ({setModal, update, setUpdate, collection}) => {
+const SideBar = ({setModal, update, setUpdate, collection, count, setCount}) => {
     const [active, setActive] = useState(false);
-
-    const [count, setCount] = useState(0);
 
     useEffect(() => {
         const countMail = async () => {
             const items = await collection.find({review: false});
             items.forEach(item => {
-                if(item.review === false && item.type === 'inbox') {
+                if (item.review === false && item.type === 'inbox') {
                     setCount(items.length);
                 }
             });
@@ -31,7 +29,8 @@ const SideBar = ({setModal, update, setUpdate, collection}) => {
                 <li className={classes.sidebar__item}>
                     <NavLink to='/inbox' className={active ? 'active' : ''} onClick={() => setUpdate(!update)}>
                         <span className="material-icons">inbox</span>
-                        Inbox {window.location.pathname === '/inbox' && count !== 0 ? <div className={classes.count}>{count}</div> : ''}
+                        Inbox {window.location.pathname === '/inbox' && count !== 0 ?
+                        <div className={classes.count}>{count}</div> : ''}
                     </NavLink>
                 </li>
                 <li className={classes.sidebar__item}>

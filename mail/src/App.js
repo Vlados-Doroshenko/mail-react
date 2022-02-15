@@ -22,6 +22,8 @@ const App = () => {
 
     const [valueSearch, setValueSearch] = useState('');
 
+    const [count, setCount] = useState(0);
+
     useEffect(() => {
         const login = async () => {
             setLoader(true);
@@ -44,8 +46,9 @@ const App = () => {
             <div>
                 <BrowserRouter>
                     <Header update={update} setUpdate={setUpdate} setValueSearch={setValueSearch}
-                            valueSearch={valueSearch}/>
-                    <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate} collection={collection}/>
+                            valueSearch={valueSearch} count={count}/>
+                    <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate} collection={collection}
+                             count={count} setCount={setCount}/>
                     <Routes>
                         <Route path="/inbox"
                                element={<Aplication valueSearch={valueSearch} update={update} setUpdate={setUpdate}
@@ -67,7 +70,8 @@ const App = () => {
                                element={<Aplication valueSearch={valueSearch} collection={collection}
                                                     update={update} setUpdate={setUpdate}
                                                     options={'inbox'}/>}/>
-                        <Route path="/:id" element={<Detail collection={collection} update={update} setUpdate={setUpdate}/>}/>
+                        <Route path="/:id"
+                               element={<Detail collection={collection} update={update} setUpdate={setUpdate}/>}/>
                     </Routes>
                 </BrowserRouter>
                 <Modal update={update} setUpdate={setUpdate} activeModal={activeModal} setActive={setActiveModal}

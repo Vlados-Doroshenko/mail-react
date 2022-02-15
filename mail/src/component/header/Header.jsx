@@ -3,7 +3,7 @@ import classes from './header.module.css';
 import 'material-icons';
 
 
-const Header = ({valueSearch, setValueSearch, update, setUpdate}) => {
+const Header = ({valueSearch, setValueSearch, update, setUpdate, count}) => {
 
     return (
         <header>
@@ -15,10 +15,15 @@ const Header = ({valueSearch, setValueSearch, update, setUpdate}) => {
                 <div className={classes.search__wrapper}>
                     <input className={classes.search} type="search" placeholder="Search here!" value={valueSearch}
                            onChange={e => setValueSearch(e.target.value)}/>
-                    <button className={classes.search__btn} type="submit" name="submit" disabled={valueSearch.length < 3}
+                    <button className={classes.search__btn} type="submit" name="submit"
+                            disabled={valueSearch.length < 3}
                             onClick={() => setUpdate(!update)}>
                         <span className="material-icons">search</span>
                     </button>
+                </div>
+                <div className={count === 0 ? classes.notification : classes.notification__active}>
+                    <span className="material-icons">notifications</span>{count === 0 ? "" :
+                    <div className={classes.notification__count}>{count}</div>}
                 </div>
             </nav>
         </header>
