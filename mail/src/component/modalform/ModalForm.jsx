@@ -27,7 +27,7 @@ const ModalForm = ({collection, setActive, setUpdate, update}) => {
             <textarea value={form.description} className={classNames(classes.textarea)}
                       onChange={e => setForm({...form, description: e.target.value})} placeholder='Message'/>
             </div>
-            <button onClick={() => addNewLetter()} disabled={!form.description} className={classes.button}>
+            <button onClick={() => addNewLetter()} disabled={form.description.length < 3 || form.title.length < 3} className={classes.button}>
                 <span className="material-icons">send</span>Send
             </button>
         </div>
