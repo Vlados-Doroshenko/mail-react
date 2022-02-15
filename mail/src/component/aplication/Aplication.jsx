@@ -36,7 +36,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
             setUpdate(!update);
         } else {
             check.forEach(item => {
-                if (item._id == post._id) {
+                if (item._id === post._id) {
                     collection.deleteMany({_id: post._id});
                 }
             });
@@ -64,7 +64,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
             });
         } else {
             check.forEach(item => {
-                if (item._id == index._id) {
+                if (item._id === index._id) {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
@@ -97,7 +97,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
             });
         } else {
             check.forEach(item => {
-                if (item._id == index._id) {
+                if (item._id === index._id) {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
@@ -129,7 +129,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
             });
         } else {
             check.forEach(item => {
-                if (item._id == index._id) {
+                if (item._id === index._id) {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
@@ -146,6 +146,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         let newData = [];
         data.forEach((a) => {
             if (a === index) {
+                a.type = 'inbox'
                 a.review = false
             }
             newData.push(a);
@@ -165,6 +166,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         data.forEach((a) => {
             if (a === index) {
                 a.review = true
+                a.type = 'inbox'
             }
             newData.push(a);
         })
