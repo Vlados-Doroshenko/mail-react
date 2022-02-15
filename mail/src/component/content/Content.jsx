@@ -27,31 +27,15 @@ const Content = ({post, remove, spam, restore, options, trash, multipleCheck, se
         setCheck(updatedCheckedState);
     };
 
-    const handleReview = (index) => {
-        if(post._id === index) {
-            collection.updateOne({_id: index._id}, {
-                title: index.title,
-                description: index.description,
-                type: index.type,
-                review: true
-            });
-        }
-        setUpdate(!update);
-    }
-
     return (
         <tr className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
-                {multipleCheck === false ?
-                    <input className={classes.letter_input} name={post._id} checked={setCheck[check]} onChange={handleOnChange}
-                           type='checkbox'/> :
-                    <input className={classes.letter_input} checked={multipleCheck} onChange={setMultipleCheck}
-                           type='checkbox'/>
-                }
+                <input className={classes.letter_input} name={post._id} checked={setCheck[check]} onChange={handleOnChange}
+                       type='checkbox'/>
             </td>
             <td className={classes.letter__td}>
                 <div className={classes.info}>
-                    <Link to={`/${post._id}`} onClick={handleReview}>
+                    <Link to={`/${post._id}`}>
                         <h2 className={classes.title}>{post.title.substr(0, symbolTitle)}{lengthTitle && '...'}</h2>
                     </Link>
                     <span
