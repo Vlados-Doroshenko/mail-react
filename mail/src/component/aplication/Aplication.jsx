@@ -69,7 +69,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                         title: index.title,
                         description: index.description,
                         type: 'spam',
-                        cache: options
+                        cache: options,
+                        review: index.review
                     });
                 }
             });
@@ -141,6 +142,42 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         }
     }
 
+    const handleReview = (index) => {
+        let newData = [];
+        data.forEach((a) => {
+            if (a === index) {
+                a.review = false
+            }
+            newData.push(a);
+        })
+        setData(newData);
+        setUpdate(!update);
+        collection.updateOne({_id: index._id}, {
+            title: index.title,
+            description: index.description,
+            type: index.type,
+            review: true
+        });
+    }
+
+    const handleNotReview = (index) => {
+        let newData = [];
+        data.forEach((a) => {
+            if (a === index) {
+                a.review = true
+            }
+            newData.push(a);
+        })
+        setData(newData);
+        setUpdate(!update);
+        collection.updateOne({_id: index._id}, {
+            title: index.title,
+            description: index.description,
+            type: index.type,
+            review: false
+        });
+    }
+
     return (
         <div className={classes.aplication}>
             {!data.length ?
@@ -176,8 +213,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                         data.map((post, key) =>
                             post.type === options &&
                             <Content data={data} key={key} check={check} setCheck={setCheck}
-                                     setMultipleCheck={setMultipleCheck} multipleCheck={multipleCheck}
-                                     remove={handleRemoveData} spam={handleSpam} trash={handleTrash}
+                                     setMultipleCheck={setMultipleCheck} review={handleReview} multipleCheck={multipleCheck}
+                                     remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam} trash={handleTrash}
                                      restore={handleRestore} collection={collection}
                                      update={update} setUpdate={setUpdate}
                                      post={post} options={options}/>

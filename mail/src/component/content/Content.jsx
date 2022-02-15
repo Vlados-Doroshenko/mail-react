@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Menu from "../menu/Menu";
 import {Link} from "react-router-dom";
 import classes from './content.module.css';
 import classNames from "classnames";
 
-const Content = ({post, remove, spam, restore, options, trash, multipleCheck, setMultipleCheck, check, setCheck, data, collection, setUpdate, update}) => {
+const Content = ({post, remove, spam, restore, options, trash, check, setCheck, data, review, notReview, collection, setUpdate, update}) => {
 
     let lengthTitle, lengthDescription = false;
 
@@ -40,7 +40,7 @@ const Content = ({post, remove, spam, restore, options, trash, multipleCheck, se
                     </Link>
                     <span
                         className={classes.description}>{post.description.substr(0, symbolDescription)}{lengthDescription && '...'}</span>
-                    <Menu trash={trash} spam={spam} restore={restore} remove={remove} post={post} options={options}/>
+                    <Menu trash={trash} spam={spam} review={review} notReview={notReview} restore={restore} remove={remove} post={post} options={options}/>
                 </div>
             </td>
         </tr>
