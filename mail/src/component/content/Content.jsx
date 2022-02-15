@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import classes from './content.module.css';
 import classNames from "classnames";
 
-const Content = ({post, remove, spam, restore, options, trash, check, setCheck, data, review, notReview, collection, setUpdate, update}) => {
+const Content = ({post, remove, spam, restore, options, trash, check, setCheck, data, review, notReview, multipleCheck, setMultipleCheck}) => {
 
     let lengthTitle, lengthDescription = false;
 
@@ -30,8 +30,12 @@ const Content = ({post, remove, spam, restore, options, trash, check, setCheck, 
     return (
         <tr className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
-                <input className={classes.letter_input} name={post._id} checked={setCheck[check]} onChange={handleOnChange}
-                       type='checkbox'/>
+                {multipleCheck === false ?
+                    <input className={classes.letter_input} name={post._id} checked={setCheck[check]} onChange={handleOnChange}
+                           type='checkbox'/> :
+                    <input className={classes.letter_input} checked={multipleCheck} onChange={setMultipleCheck}
+                           type='checkbox'/>
+                }
             </td>
             <td className={classes.letter__td}>
                 <div className={classes.info}>

@@ -19,7 +19,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     useEffect(() => {
         const findMail = async () => {
             if (valueSearch) {
-                const items = await collection.find({title: /valueSearch/i, type: `${options}`});
+                const items = await collection.find({title: /[valueSearch]/i, type: `${options}`});
                 setData(items);
             } else {
                 const items = await collection.find({type: `${options}`});

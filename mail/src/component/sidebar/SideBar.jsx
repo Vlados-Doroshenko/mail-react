@@ -7,7 +7,7 @@ const SideBar = ({setModal, update, setUpdate, collection, count, setCount}) => 
 
     useEffect(() => {
         const countMail = async () => {
-            const items = await collection.find({type: 'inbox'});
+            const items = await collection.find({type: 'inbox', review: false});
             items.forEach(item => {
                 if (item.review === false && item.type === 'inbox') {
                     setCount(items.length);
