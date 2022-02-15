@@ -11,3 +11,7 @@
     text-align: center;
     margin-top: 150px;
 }
+
+.table__head {
+    height: 50px;
+}

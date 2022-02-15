@@ -31,7 +31,7 @@ const SideBar = ({setModal, update, setUpdate, collection}) => {
                 <li className={classes.sidebar__item}>
                     <NavLink to='/inbox' className={active ? 'active' : ''} onClick={() => setUpdate(!update)}>
                         <span className="material-icons">inbox</span>
-                        Inbox {window.location.pathname === '/inbox' ? <div className={classes.count}>{count}</div> : ''}
+                        Inbox {window.location.pathname === '/inbox' && count !== 0 ? <div className={classes.count}>{count}</div> : ''}
                     </NavLink>
                 </li>
                 <li className={classes.sidebar__item}>

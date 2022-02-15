@@ -60,7 +60,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                 description: index.description,
                 type: 'spam',
                 cache: options,
-
+                review: index.review
             });
         } else {
             check.forEach(item => {
@@ -123,7 +123,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
             collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
-                type: index.cache
+                type: index.cache,
             });
         } else {
             check.forEach(item => {
@@ -131,7 +131,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
-                        type: index.cache
+                        type: index.cache,
+                        review: index.review
                     });
                 }
             });
@@ -150,7 +151,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                 </h1>
                 :
                 <table cellSpacing="0">
-                    <thead>
+                    <thead className={classes.table__head}>
                     <tr>
                         <th>
                             <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
