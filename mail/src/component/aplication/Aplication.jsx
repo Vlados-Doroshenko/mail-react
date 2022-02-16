@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Content from "../content/Content";
 import classes from './aplication.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
+import Pagination from "../pagination/Pagination";
 
 
 const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
@@ -11,6 +12,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     const [multipleCheck, setMultipleCheck] = useState(false);
 
     const [check, setCheck] = useState(false);
+
+    const dataLimit = 10;
 
     const multipleCheckbox = ({target: {checked}}) => {
         setMultipleCheck(checked);
@@ -181,7 +184,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     }
 
     return (
-        <div className={classes.aplication}>
+        <div className={classes.wrapper}>
+            <div className={classes.aplication}>
             {!data.length ?
                 <h1 className={classes.aplication__content}>
                     {options === 'inbox' ? 'The inbox is empty' : ''}
@@ -225,6 +229,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                     </tbody>
                 </table>
             }
+            </div>
+            <Pagination data={data} pageLimit={5} dataLimit={10}/>
         </div>
     );
 };
