@@ -192,7 +192,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
     return (
         <div className={classes.wrapper}>
-            <div className={classes.aplication} style={pageSize > 11 ? {overflowY: "scroll"} : null}>
+            <div className={classes.aplication} style={pageSize > 11 ? {overflowY: "scroll"} : {overflowY: "none"}}>
                 {!data.length ?
                     <h1 className={classes.aplication__content}>
                         {options === 'inbox' ? 'The inbox is empty' : ''}
