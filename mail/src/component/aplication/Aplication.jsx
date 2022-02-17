@@ -4,6 +4,8 @@ import classes from './aplication.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
 
+let dataLimit = 10;
+const pageLimit = 5;
 
 const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
@@ -13,7 +15,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
     const [check, setCheck] = useState(false);
 
-    const dataLimit = 10;
+    const [currentPage, setCurrentPage] = useState(1);
 
     const multipleCheckbox = ({target: {checked}}) => {
         setMultipleCheck(checked);
@@ -164,6 +166,12 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         });
     }
 
+    const getPaginatedData = () => {
+        const startIndex = currentPage * dataLimit - dataLimit;
+        const endIndex = startIndex + dataLimit;
+        return data.slice(startIndex, endIndex);
+    };
+
     const handleNotReview = (index) => {
         let newData = [];
         data.forEach((a) => {
@@ -186,51 +194,50 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     return (
         <div className={classes.wrapper}>
             <div className={classes.aplication}>
-            {!data.length ?
-                <h1 className={classes.aplication__content}>
-                    {options === 'inbox' ? 'The inbox is empty' : ''}
-                    {options === 'trash' ? 'The trash is empty' : ''}
-                    {options === 'send' ? 'You haven\'t sent any messages yet' : ''}
-                    {options === 'spam' ? 'The spam is empty' : ''}
-                </h1>
-                :
-                <table cellSpacing="0">
-                    <thead className={classes.table__head}>
-                    <tr>
-                        <th>
-                            <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
-                        </th>
-                        {multipleCheck === false ? '' :
-                            <SettingMenu check={check} setCheck={setCheck} options={options}
-                                         multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
-                                         collection={collection} spam={handleSpam} trash={handleTrash}
-                                         restore={handleRestore} remove={handleRemoveData}/>
+                {!data.length ?
+                    <h1 className={classes.aplication__content}>
+                        {options === 'inbox' ? 'The inbox is empty' : ''}
+                        {options === 'trash' ? 'The trash is empty' : ''}
+                        {options === 'send' ? 'You haven\'t sent any messages yet' : ''}
+                        {options === 'spam' ? 'The spam is empty' : ''}
+                    </h1>
+                    :
+                    <table cellSpacing="0">
+                        <thead className={classes.table__head}>
+                        <tr>
+                            <th>
+                                <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
+                            </th>
+                            {multipleCheck === false ? '' :
+                                <SettingMenu check={check} setCheck={setCheck} options={options}
+                                             multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
+                                             collection={collection} spam={handleSpam} trash={handleTrash}
+                                             restore={handleRestore} remove={handleRemoveData}/>
+                            }
+                            {check === false || check[0] === false || check[1] === false ? '' :
+                                <SettingMenu check={check} setCheck={setCheck} options={options}
+                                             multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
+                                             collection={collection} spam={handleSpam} trash={handleTrash}
+                                             restore={handleRestore} remove={handleRemoveData}/>
+                            }
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            getPaginatedData().map((post, key) =>
+                                <Content data={data} key={key} check={check} setCheck={setCheck}
+                                         setMultipleCheck={setMultipleCheck} review={handleReview} multipleCheck={multipleCheck}
+                                         remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam} trash={handleTrash}
+                                         restore={handleRestore} collection={collection}
+                                         update={update} setUpdate={setUpdate}
+                                         post={post} options={options}/>
+                            )
                         }
-                        {check === false || check[0] === false || check[1] === false ? '' :
-                            <SettingMenu check={check} setCheck={setCheck} options={options}
-                                         multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
-                                         collection={collection} spam={handleSpam} trash={handleTrash}
-                                         restore={handleRestore} remove={handleRemoveData}/>
-                        }
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        data.map((post, key) =>
-                            post.type === options &&
-                            <Content data={data} key={key} check={check} setCheck={setCheck}
-                                     setMultipleCheck={setMultipleCheck} review={handleReview} multipleCheck={multipleCheck}
-                                     remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam} trash={handleTrash}
-                                     restore={handleRestore} collection={collection}
-                                     update={update} setUpdate={setUpdate}
-                                     post={post} options={options}/>
-                        )
-                    }
-                    </tbody>
-                </table>
-            }
+                        </tbody>
+                    </table>
+                }
             </div>
-            <Pagination data={data} pageLimit={5} dataLimit={10}/>
+            <Pagination data={data} currentPage={currentPage} update={update} setUpdate={setUpdate} setCurrentPage={setCurrentPage} pageLimit={pageLimit} dataLimit={dataLimit}/>
         </div>
     );
 };
