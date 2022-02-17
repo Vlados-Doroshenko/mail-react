@@ -4,7 +4,21 @@ import {Link} from "react-router-dom";
 import classes from './content.module.css';
 import classNames from "classnames";
 
-const Content = ({post, remove, spam, restore, options, trash, check, setCheck, data, review, notReview, multipleCheck, setMultipleCheck}) => {
+const Content = ({
+                     post,
+                     remove,
+                     spam,
+                     restore,
+                     options,
+                     trash,
+                     check,
+                     setCheck,
+                     data,
+                     review,
+                     notReview,
+                     multipleCheck,
+                     setMultipleCheck
+                 }) => {
 
     let lengthTitle, lengthDescription = false;
 
@@ -31,7 +45,8 @@ const Content = ({post, remove, spam, restore, options, trash, check, setCheck, 
         <tr className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
                 {multipleCheck === false ?
-                    <input className={classes.letter_input} name={post._id} checked={setCheck[check]} onChange={handleOnChange}
+                    <input className={classes.letter_input} name={post._id} checked={setCheck[check]}
+                           onChange={handleOnChange}
                            type='checkbox'/> :
                     <input className={classes.letter_input} checked={multipleCheck} onChange={setMultipleCheck}
                            type='checkbox'/>
@@ -44,7 +59,8 @@ const Content = ({post, remove, spam, restore, options, trash, check, setCheck, 
                     </Link>
                     <span
                         className={classes.description}>{post.description.substr(0, symbolDescription)}{lengthDescription && '...'}</span>
-                    <Menu trash={trash} spam={spam} review={review} notReview={notReview} restore={restore} remove={remove} post={post} options={options}/>
+                    <Menu trash={trash} spam={spam} review={review} notReview={notReview} restore={restore}
+                          remove={remove} post={post} options={options}/>
                 </div>
             </td>
         </tr>

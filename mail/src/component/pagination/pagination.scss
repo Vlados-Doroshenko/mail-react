@@ -1,7 +1,12 @@
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .pagination-container {
   display: flex;
   list-style-type: none;
-  justify-content: center;
 
   .pagination-item {
     padding: 0 12px;

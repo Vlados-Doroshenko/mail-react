@@ -4,8 +4,6 @@ import classes from './aplication.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
 
-let PageSize = 10;
-
 const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
     const [data, setData] = useState([]);
@@ -16,6 +14,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
     const [currentPage, setCurrentPage] = useState(1);
 
+    const [pageSize, setPageSize] = useState(10);
+
     const multipleCheckbox = ({target: {checked}}) => {
         setMultipleCheck(checked);
     };
@@ -23,7 +23,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     useEffect(() => {
         const findMail = async () => {
             if (valueSearch) {
-                const items = await collection.find({title: { $regex: valueSearch }, type: `${options}`});
+                const items = await collection.find({title: {$regex: valueSearch}, type: `${options}`});
                 setData(items);
             } else {
                 const items = await collection.find({type: `${options}`});
@@ -166,8 +166,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     }
 
     const getPaginatedData = () => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
+        const firstPageIndex = (currentPage - 1) * pageSize;
+        const lastPageIndex = firstPageIndex + pageSize;
         return data.slice(firstPageIndex, lastPageIndex);
     };
 
@@ -192,7 +192,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
     return (
         <div className={classes.wrapper}>
-            <div className={classes.aplication} style={PageSize > 11 ? {overflowY: "scroll"} : null}>
+            <div className={classes.aplication} style={pageSize > 11 ? {overflowY: "scroll"} : null}>
                 {!data.length ?
                     <h1 className={classes.aplication__content}>
                         {options === 'inbox' ? 'The inbox is empty' : ''}
@@ -209,13 +209,15 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                             </th>
                             {multipleCheck === false ? '' :
                                 <SettingMenu check={check} setCheck={setCheck} options={options}
-                                             multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
+                                             multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck}
+                                             data={data}
                                              collection={collection} spam={handleSpam} trash={handleTrash}
                                              restore={handleRestore} remove={handleRemoveData}/>
                             }
                             {check === false || check[0] === false || check[1] === false ? '' :
                                 <SettingMenu check={check} setCheck={setCheck} options={options}
-                                             multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck} data={data}
+                                             multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck}
+                                             data={data}
                                              collection={collection} spam={handleSpam} trash={handleTrash}
                                              restore={handleRestore} remove={handleRemoveData}/>
                             }
@@ -225,8 +227,10 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                         {
                             getPaginatedData().map((post, key) =>
                                 <Content data={data} key={key} check={check} setCheck={setCheck}
-                                         setMultipleCheck={setMultipleCheck} review={handleReview} multipleCheck={multipleCheck}
-                                         remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam} trash={handleTrash}
+                                         setMultipleCheck={setMultipleCheck} review={handleReview}
+                                         multipleCheck={multipleCheck}
+                                         remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam}
+                                         trash={handleTrash}
                                          restore={handleRestore} collection={collection}
                                          update={update} setUpdate={setUpdate}
                                          post={post} options={options}/>
@@ -240,7 +244,9 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                 className="pagination-bar"
                 currentPage={currentPage}
                 totalCount={data.length}
-                pageSize={PageSize}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+                setCurrentPage={setCurrentPage}
                 onPageChange={page => setCurrentPage(page)}
             />
         </div>
