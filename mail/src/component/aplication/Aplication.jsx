@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Content from "../content/Content";
 import classes from './aplication.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
 
-let dataLimit = 10;
-const pageLimit = 5;
+let PageSize = 10;
 
 const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
@@ -167,9 +166,9 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     }
 
     const getPaginatedData = () => {
-        const startIndex = currentPage * dataLimit - dataLimit;
-        const endIndex = startIndex + dataLimit;
-        return data.slice(startIndex, endIndex);
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return data.slice(firstPageIndex, lastPageIndex);
     };
 
     const handleNotReview = (index) => {
@@ -193,7 +192,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
 
     return (
         <div className={classes.wrapper}>
-            <div className={classes.aplication}>
+            <div className={classes.aplication} style={PageSize > 11 ? {overflowY: "scroll"} : null}>
                 {!data.length ?
                     <h1 className={classes.aplication__content}>
                         {options === 'inbox' ? 'The inbox is empty' : ''}
@@ -237,7 +236,13 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                     </table>
                 }
             </div>
-            <Pagination data={data} currentPage={currentPage} update={update} setUpdate={setUpdate} setCurrentPage={setCurrentPage} pageLimit={pageLimit} dataLimit={dataLimit}/>
+            <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={data.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)}
+            />
         </div>
     );
 };
