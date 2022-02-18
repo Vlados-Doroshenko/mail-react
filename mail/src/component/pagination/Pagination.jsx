@@ -13,7 +13,9 @@ const Pagination = props => {
         pageSize,
         className,
         setPageSize,
-        setCurrentPage
+        setCurrentPage,
+        update,
+        setUpdate
     } = props;
 
     const paginationRange = usePagination({
@@ -38,7 +40,7 @@ const Pagination = props => {
     let lastPage = paginationRange[paginationRange.length - 1];
     return (
         <div className={classnames('pagination-wrapper')}>
-            <Select setPageSize={setPageSize} setCurrentPage={setCurrentPage}/>
+            <Select setPageSize={setPageSize} setCurrentPage={setCurrentPage} update={update} setUpdate={setUpdate}/>
             <ul
                 className={classnames('pagination-container', {[className]: className})}
             >

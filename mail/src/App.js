@@ -74,8 +74,9 @@ const App = () => {
                                element={<Detail collection={collection} update={update} setUpdate={setUpdate}/>}/>
                     </Routes>
                 </BrowserRouter>
-                <Modal update={update} setUpdate={setUpdate} activeModal={activeModal} setActive={setActiveModal}
-                       collection={collection}/>
+                {activeModal &&
+                    <Modal update={update} setUpdate={setUpdate} activeModal={activeModal} setActive={setActiveModal}
+                           collection={collection}/>}
             </div>
         );
     }

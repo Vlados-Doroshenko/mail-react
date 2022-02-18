@@ -226,7 +226,7 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                         <tbody>
                         {
                             getPaginatedData().map((post, key) =>
-                                <Content data={data} key={key} check={check} setCheck={setCheck}
+                                <Content data={data} key={post._id} check={check} setCheck={setCheck}
                                          setMultipleCheck={setMultipleCheck} review={handleReview}
                                          multipleCheck={multipleCheck}
                                          remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam}
@@ -241,12 +241,13 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                 }
             </div>
             <Pagination
-                className="pagination-bar"
                 currentPage={currentPage}
                 totalCount={data.length}
                 pageSize={pageSize}
                 setPageSize={setPageSize}
                 setCurrentPage={setCurrentPage}
+                update={update}
+                setUpdate={setUpdate}
                 onPageChange={page => setCurrentPage(page)}
             />
         </div>
