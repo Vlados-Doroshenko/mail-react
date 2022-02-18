@@ -1,16 +1,16 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import Content from "../content/Content";
-import classes from './aplication.module.css'
+import classes from './application.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
 
-const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
+const Application = ({collection, options, update, setUpdate, valueSearch}) => {
 
     const [data, setData] = useState([]);
 
     const [multipleCheck, setMultipleCheck] = useState(false);
 
-    const [check, setCheck] = useState(false);
+    const [check, setCheck] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -24,11 +24,19 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         const findMail = async () => {
             if (valueSearch) {
                 const items = await collection.find({title: {$regex: valueSearch}, type: `${options}`});
-                setData(items);
+                await setData(items);
             } else {
                 const items = await collection.find({type: `${options}`});
-                setData(items);
+                await setData(items);
             }
+            setCheck(
+                data.map(d => {
+                    return {
+                        select: false,
+                        id: d._id
+                    };
+                })
+            );
         }
         findMail();
     }, []);
@@ -190,6 +198,8 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
         });
     }
 
+    console.log(check);
+
     return (
         <div className={classes.wrapper}>
             <div className={classes.aplication} style={pageSize > 11 ? {overflowY: "scroll"} : {overflowY: "hidden"}}>
@@ -205,30 +215,40 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
                         <thead className={classes.table__head}>
                         <tr>
                             <th>
-                                <input type='checkbox' checked={multipleCheck} onChange={multipleCheckbox}/>
+                                <input
+                                    type="checkbox"
+                                    onChange={e => {
+                                        let checked = e.target.checked;
+                                        setCheck(
+                                            data.map(d => {
+                                                d.select = checked;
+                                                return d;
+                                            })
+                                        );
+                                    }}
+                               />
                             </th>
-                            {multipleCheck === false ? '' :
-                                <SettingMenu check={check} setCheck={setCheck} options={options}
-                                             multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck}
-                                             data={data}
-                                             collection={collection} spam={handleSpam} trash={handleTrash}
-                                             restore={handleRestore} remove={handleRemoveData}/>
-                            }
-                            {check === false || check[0] === false || check[1] === false ? '' :
-                                <SettingMenu check={check} setCheck={setCheck} options={options}
-                                             multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck}
-                                             data={data}
-                                             collection={collection} spam={handleSpam} trash={handleTrash}
-                                             restore={handleRestore} remove={handleRemoveData}/>
-                            }
+                            {/*{multipleCheck === false ? '' :*/}
+                            {/*    <SettingMenu check={check} setCheck={setCheck} options={options}*/}
+                            {/*                 multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck}*/}
+                            {/*                 data={data}*/}
+                            {/*                 collection={collection} spam={handleSpam} trash={handleTrash}*/}
+                            {/*                 restore={handleRestore} remove={handleRemoveData}/>*/}
+                            {/*}*/}
+                            {/*{check === false || check[0] === false || check[1] === false ? '' :*/}
+                            {/*    <SettingMenu check={check} setCheck={setCheck} options={options}*/}
+                            {/*                 multipleCheck={multipleCheck} setMultipleCheck={setMultipleCheck}*/}
+                            {/*                 data={data}*/}
+                            {/*                 collection={collection} spam={handleSpam} trash={handleTrash}*/}
+                            {/*                 restore={handleRestore} remove={handleRemoveData}/>*/}
+                            {/*}*/}
                         </tr>
                         </thead>
                         <tbody>
                         {
                             getPaginatedData().map((post, key) =>
                                 <Content data={data} key={post._id} check={check} setCheck={setCheck}
-                                         setMultipleCheck={setMultipleCheck} review={handleReview}
-                                         multipleCheck={multipleCheck}
+                                         review={handleReview}
                                          remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam}
                                          trash={handleTrash}
                                          restore={handleRestore} collection={collection}
@@ -254,4 +274,4 @@ const Aplication = ({collection, options, update, setUpdate, valueSearch}) => {
     );
 };
 
-export default Aplication;
+export default Application;

@@ -15,9 +15,7 @@ const Content = ({
                      setCheck,
                      data,
                      review,
-                     notReview,
-                     multipleCheck,
-                     setMultipleCheck
+                     notReview
                  }) => {
 
     let lengthTitle, lengthDescription = false;
@@ -33,24 +31,22 @@ const Content = ({
         lengthDescription = !lengthDescription;
     }
 
-    const handleOnChange = (e) => {
-        const {name, checked} = e.target;
-        const updatedCheckedState = data.map((item) =>
-            item._id == name ? item : checked
-        );
-        setCheck(updatedCheckedState);
-    };
-
     return (
         <tr className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
-                {multipleCheck === false ?
-                    <input className={classes.letter_input} name={post._id} checked={setCheck[check]}
-                           onChange={handleOnChange}
-                           type='checkbox'/> :
-                    <input className={classes.letter_input} checked={multipleCheck} onChange={setMultipleCheck}
-                           type='checkbox'/>
-                }
+                <input className={classes.letter_input} name={post._id} checked={setCheck[check]}
+                       onChange={e => {
+                           let checked = e.target.checked;
+                           setCheck(
+                               data.map(d => {
+                                   if (d._id === post._id) {
+                                       d.select = checked;
+                                   }
+                                   return d;
+                               })
+                           );
+                       }}
+                       type='checkbox'/>
             </td>
             <td className={classes.letter__td}>
                 <div className={classes.info}>

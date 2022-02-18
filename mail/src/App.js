@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import * as Realm from "realm-web";
 import Header from "./component/header/Header";
-import Aplication from "./component/aplication/Aplication";
+import Application from "./component/application/Application";
 import Modal from "./component/modal/Modal";
 import Loader from "./component/Loader";
 import Detail from "./component/detail/Detail";
@@ -51,25 +51,25 @@ const App = () => {
                              count={count} setCount={setCount}/>
                     <Routes>
                         <Route path="/inbox"
-                               element={<Aplication valueSearch={valueSearch} update={update} setUpdate={setUpdate}
-                                                    collection={collection}
-                                                    options={'inbox'}/>}/>
+                               element={<Application valueSearch={valueSearch} update={update} setUpdate={setUpdate}
+                                                     collection={collection}
+                                                     options={'inbox'}/>}/>
                         <Route path="/send"
-                               element={<Aplication valueSearch={valueSearch} collection={collection}
-                                                    update={update} setUpdate={setUpdate}
-                                                    options={'send'}/>}/>
+                               element={<Application valueSearch={valueSearch} collection={collection}
+                                                     update={update} setUpdate={setUpdate}
+                                                     options={'send'}/>}/>
                         <Route path="/spam"
-                               element={<Aplication valueSearch={valueSearch} collection={collection}
-                                                    update={update} setUpdate={setUpdate}
-                                                    options={'spam'}/>}/>
+                               element={<Application valueSearch={valueSearch} collection={collection}
+                                                     update={update} setUpdate={setUpdate}
+                                                     options={'spam'}/>}/>
                         <Route path="/trash"
-                               element={<Aplication valueSearch={valueSearch} collection={collection}
-                                                    update={update} setUpdate={setUpdate}
-                                                    options={'trash'}/>}/>
+                               element={<Application valueSearch={valueSearch} collection={collection}
+                                                     update={update} setUpdate={setUpdate}
+                                                     options={'trash'}/>}/>
                         <Route path="/"
-                               element={<Aplication valueSearch={valueSearch} collection={collection}
-                                                    update={update} setUpdate={setUpdate}
-                                                    options={'inbox'}/>}/>
+                               element={<Application valueSearch={valueSearch} collection={collection}
+                                                     update={update} setUpdate={setUpdate}
+                                                     options={'inbox'}/>}/>
                         <Route path="/:id"
                                element={<Detail collection={collection} update={update} setUpdate={setUpdate}/>}/>
                     </Routes>
