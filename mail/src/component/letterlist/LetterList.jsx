@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import Content from "../content/Content";
+import Letter from "../letter/Letter";
 import classes from './application.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
 
-const Application = ({collection, options, valueSearch, setCount}) => {
+const LetterList = ({collection, options, valueSearch, setCount, count}) => {
 
     const [data, setData] = useState([]);
 
@@ -14,24 +14,22 @@ const Application = ({collection, options, valueSearch, setCount}) => {
 
     const [pageSize, setPageSize] = useState(10);
 
-    useEffect(() => {
+    const getLetters = () => {
         const findMail = async () => {
             if (valueSearch) {
-                const items = await collection.find({title: {$regex: valueSearch}, type: `${options}`});
+                const items = await collection.find({
+                    title: {$regex: valueSearch},
+                    type: `${options}`
+                }, {limit: pageSize, sort: {_id: -1}});
                 await setData(items);
             } else {
-                const items = await collection.find({type: `${options}`});
+                const items = await collection.find({type: `${options}`}, {sort: {_id: -1}});
                 await setData(items);
             }
 
-            if (options === 'inbox') {
-                const items = await collection.find({type: 'inbox', review: false});
-                items.forEach(item => {
-                    if (item.review === false && item.type === 'inbox') {
-                        setCount(items.length);
-                    }
-                });
-            }
+            const items = await collection.find({type: `${options}`}, {sort: {_id: -1}});
+            await setData(items);
+
             setCheck(
                 data.map(d => {
                     return {
@@ -42,12 +40,17 @@ const Application = ({collection, options, valueSearch, setCount}) => {
             );
         }
         findMail();
-    }, []);
+    }
 
-    const handleRemoveData = (post) => {
+    useEffect(() => {
+        getLetters();
+    }, [valueSearch, collection, options]);
+
+    const handleRemoveData = async (post) => {
+        getLetters();
         if (!check.length) {
             setData(data.filter(p => p._id !== post._id));
-            collection.deleteOne({_id: post._id});
+            await collection.deleteOne({_id: post._id});
         } else {
             check.forEach(item => {
                 if (item._id === post._id) {
@@ -57,7 +60,7 @@ const Application = ({collection, options, valueSearch, setCount}) => {
         }
     }
 
-    const handleSpam = (index) => {
+    const handleSpam = async (index) => {
         if (!check.length) {
             let newData = [];
             data.forEach((a) => {
@@ -67,13 +70,15 @@ const Application = ({collection, options, valueSearch, setCount}) => {
                 newData.push(a);
             });
             setData(newData);
-            collection.updateOne({_id: index._id}, {
+            await collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
                 type: 'spam',
                 cache: options,
                 review: index.review
             });
+            getLetters();
+
         } else {
             check.forEach(item => {
                 if (item._id === index._id && item.select === true) {
@@ -84,12 +89,13 @@ const Application = ({collection, options, valueSearch, setCount}) => {
                         cache: options,
                         review: index.review
                     });
+                    getLetters();
                 }
             });
         }
     }
 
-    const handleTrash = (index) => {
+    const handleTrash = async (index) => {
         if (!check.length) {
             let newData = []
             data.forEach((a) => {
@@ -99,27 +105,29 @@ const Application = ({collection, options, valueSearch, setCount}) => {
                 newData.push(a);
             })
             setData(newData);
-            collection.updateOne({_id: index._id}, {
+            await collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
                 type: 'trash',
                 cache: options
             });
+            getLetters();
         } else {
             check.forEach(item => {
-                if (item._id === index._id) {
+                if (item._id === index._id && item.select === true) {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
                         type: 'trash',
                         cache: options
                     });
+                    getLetters();
                 }
             });
         }
     }
 
-    const handleRestore = (index) => {
+    const handleRestore = async (index) => {
         if (!check.length) {
             let newData = [];
             data.forEach((a) => {
@@ -129,27 +137,44 @@ const Application = ({collection, options, valueSearch, setCount}) => {
                 newData.push(a);
             })
             setData(newData);
-            collection.updateOne({_id: index._id}, {
+            await collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
                 type: index.cache,
                 review: index.review
             });
+            getLetters();
+        } else if (options === 'send') {
+            let newData = [];
+            data.forEach((a) => {
+                if (a === index) {
+                    a.where = index.where;
+                    a.type = 'send'
+                }
+                newData.push(a);
+            })
+            setData(newData);
+            await collection.updateOne({_id: index._id}, {
+                title: index.title,
+                description: index.description,
+                type: index.cache
+            });
         } else {
             check.forEach(item => {
-                if (item._id === index._id) {
+                if (item._id === index._id && item.select === true) {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
                         type: index.cache,
                         review: index.review
                     });
+                    getLetters();
                 }
             });
         }
     }
 
-    const handleReview = (index) => {
+    const handleReview = async (index) => {
         let newData = [];
         data.forEach((a) => {
             if (a === index) {
@@ -159,12 +184,14 @@ const Application = ({collection, options, valueSearch, setCount}) => {
             newData.push(a);
         })
         setData(newData);
-        collection.updateOne({_id: index._id}, {
+        await collection.updateOne({_id: index._id}, {
             title: index.title,
             description: index.description,
             type: index.type,
             review: true
         });
+        getLetters();
+        setCount(!count);
     }
 
     const getPaginatedData = () => {
@@ -173,7 +200,7 @@ const Application = ({collection, options, valueSearch, setCount}) => {
         return data.slice(firstPageIndex, lastPageIndex);
     };
 
-    const handleNotReview = (index) => {
+    const handleNotReview = async (index) => {
         let newData = [];
         data.forEach((a) => {
             if (a === index) {
@@ -183,12 +210,14 @@ const Application = ({collection, options, valueSearch, setCount}) => {
             newData.push(a);
         })
         setData(newData);
-        collection.updateOne({_id: index._id}, {
+        await collection.updateOne({_id: index._id}, {
             title: index.title,
             description: index.description,
             type: index.type,
             review: false
         });
+        getLetters();
+        setCount(!count);
     }
 
     const handleChecked = check.filter(item => item.select);
@@ -234,12 +263,12 @@ const Application = ({collection, options, valueSearch, setCount}) => {
                         <tbody>
                         {
                             getPaginatedData().map((post, key) =>
-                                <Content data={data} key={post._id} setCheck={setCheck}
-                                         review={handleReview}
-                                         remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam}
-                                         trash={handleTrash}
-                                         restore={handleRestore} collection={collection}
-                                         post={post} options={options}/>
+                                <Letter data={data} key={post._id} setCheck={setCheck}
+                                        review={handleReview}
+                                        remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam}
+                                        trash={handleTrash}
+                                        restore={handleRestore} collection={collection}
+                                        post={post} options={options}/>
                             )
                         }
                         </tbody>
@@ -258,4 +287,4 @@ const Application = ({collection, options, valueSearch, setCount}) => {
     );
 };
 
-export default Application;
+export default LetterList;

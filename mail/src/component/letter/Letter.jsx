@@ -1,21 +1,21 @@
 import React from 'react';
 import Menu from "../menu/Menu";
 import {Link} from "react-router-dom";
-import classes from './content.module.css';
+import classes from './letter.module.css';
 import classNames from "classnames";
 
-const Content = ({
-                     post,
-                     remove,
-                     spam,
-                     restore,
-                     options,
-                     trash,
-                     setCheck,
-                     data,
-                     review,
-                     notReview
-                 }) => {
+const Letter = ({
+                    post,
+                    remove,
+                    spam,
+                    restore,
+                    options,
+                    trash,
+                    setCheck,
+                    data,
+                    review,
+                    notReview
+                }) => {
 
     return (
         <tr key={post._id} className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
@@ -49,4 +49,4 @@ const Content = ({
     );
 };
 
-export default Content;
+export default Letter;

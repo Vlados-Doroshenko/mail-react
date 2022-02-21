@@ -1,13 +1,10 @@
 import React from 'react';
 import classes from './select.module.css';
 
-const Select = ({setPageSize, setCurrentPage, setUpdate, update}) => {
+const Select = ({setPageSize, setCurrentPage}) => {
 
     const selectItem = (e) => {
         const {value} = e.target;
-        if (value === '10') {
-            setUpdate(!update);
-        }
         setPageSize(value);
         setCurrentPage(1);
     }

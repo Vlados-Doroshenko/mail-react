@@ -12,9 +12,7 @@ const Menu = ({remove, post, spam, trash, restore, options, review, notReview}) 
     const handleSpam = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        setTimeout(() => {
-            spam(post);
-        }, 1000);
+        spam(post);
     }
 
     const handleRestore = (e) => {
@@ -48,10 +46,8 @@ const Menu = ({remove, post, spam, trash, restore, options, review, notReview}) 
                 {options === 'spam' && <span className='material-icons' onClick={handleRestore}>restore</span>}
                 {options === 'trash' && <span className='material-icons' onClick={handleRestore}>restore</span>}
                 {options === 'inbox' && <span className='material-icons' onClick={handleSpam}>report</span>}
-                {options === 'inbox' && post.review === false &&
-                    <span className="material-icons" onClick={handleReview}>visibility</span>}
-                {post.type === 'inbox' && post.review === true ?
-                    <span className="material-icons" onClick={handleNotReview}>visibility_off</span> : ''}
+                {options === 'inbox' && post.review === false && <span className="material-icons" onClick={handleReview}>visibility</span>}
+                {post.type === 'inbox' && post.review === true ? <span className="material-icons" onClick={handleNotReview}>visibility_off</span>: ''}
                 {options === 'trash' ? <span className='material-icons' onClick={handleRemove}>delete</span> :
                     <span className='material-icons' onClick={handleTrash}>delete</span>}
             </div>

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import classes from './sidebar.module.css';
 import {NavLink} from "react-router-dom";
 
-const SideBar = ({setModal, update, setUpdate, count}) => {
+const SideBar = ({setModal, count}) => {
     const [active] = useState(false);
 
     return (
@@ -15,26 +15,26 @@ const SideBar = ({setModal, update, setUpdate, count}) => {
                     </button>
                 </li>
                 <li className={classes.sidebar__item}>
-                    <NavLink to='/inbox' className={active ? 'active' : ''} onClick={() => setUpdate(!update)}>
+                    <NavLink to='/inbox' className={active ? 'active' : ''}>
                         <span className="material-icons">inbox</span>
-                        Inbox {window.location.pathname === '/inbox' && count !== 0 ?
+                        Inbox {count !== 0 ?
                         <div className={classes.count}>{count}</div> : ''}
                     </NavLink>
                 </li>
                 <li className={classes.sidebar__item}>
-                    <NavLink to='/send' className={active ? 'active' : ''} onClick={() => setUpdate(!update)}>
+                    <NavLink to='/send' className={active ? 'active' : ''}>
                         <span className="material-icons">send</span>
                         Send
                     </NavLink>
                 </li>
                 <li className={classes.sidebar__item}>
-                    <NavLink to='/spam' className={active ? 'active' : ''} onClick={() => setUpdate(!update)}>
+                    <NavLink to='/spam' className={active ? 'active' : ''}>
                         <span className="material-icons">report</span>
                         Spam
                     </NavLink>
                 </li>
                 <li className={classes.sidebar__item}>
-                    <NavLink to='/trash' className={active ? 'active' : ''} onClick={() => setUpdate(!update)}>
+                    <NavLink to='/trash' className={active ? 'active' : ''}>
                         <span className="material-icons">delete</span>
                         Trash
                     </NavLink>

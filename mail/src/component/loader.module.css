@@ -22,7 +22,7 @@ section.preloader {
 }
 
 .loader .text {
-    /* content: "Loading"; */
+    /* letter: "Loading"; */
     color: #fff;
     display: flex;
     justify-content: center;
