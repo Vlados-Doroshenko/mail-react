@@ -14,8 +14,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
 
     const [pageSize, setPageSize] = useState(10);
 
-    const [settingBar, setSettingBar] = useState({});
-
     useEffect(() => {
         const findMail = async () => {
             if (valueSearch) {
@@ -195,8 +193,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
     }
 
     const handleChecked = check.filter(item => item.select);
-
-    console.log(handleChecked);
 
     return (
         <div className={classes.wrapper}>

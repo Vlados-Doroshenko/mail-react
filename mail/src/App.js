@@ -9,6 +9,7 @@ import {API_KEY, app, COLLECTION_NAME, DATABASE_NAME, SERVICE_NAME} from "./conn
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import SideBar from "./component/sidebar/SideBar";
 import './index.css';
+import ReactDOM from "react-dom";
 
 const App = () => {
 
@@ -79,6 +80,7 @@ const App = () => {
                            collection={collection}/>}
             </div>
         );
+
     }
 }
 

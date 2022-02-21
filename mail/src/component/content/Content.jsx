@@ -18,19 +18,6 @@ const Content = ({
                      notReview
                  }) => {
 
-    let lengthTitle, lengthDescription = false;
-
-    const symbolTitle = 10;
-    const symbolDescription = 110;
-
-    if (post.title.length > symbolTitle) {
-        lengthTitle = !lengthTitle;
-    }
-
-    if (post.description.length > symbolDescription) {
-        lengthDescription = !lengthDescription;
-    }
-
     return (
         <tr key={post._id} className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
@@ -51,10 +38,10 @@ const Content = ({
             <td className={classes.letter__td}>
                 <div className={classes.info}>
                     <Link to={`/${post._id}`}>
-                        <h2 className={classes.title}>{post.title.substr(0, symbolTitle)}{lengthTitle && '...'}</h2>
+                        <h2 className={classes.title}>{post.title}</h2>
                     </Link>
                     <span
-                        className={classes.description}>{post.description.substr(0, symbolDescription)}{lengthDescription && '...'}</span>
+                        className={classes.description}>{post.description}</span>
                     <Menu trash={trash} spam={spam} review={review} notReview={notReview} restore={restore}
                           remove={remove} post={post} options={options}/>
                 </div>

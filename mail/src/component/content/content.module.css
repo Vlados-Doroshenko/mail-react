@@ -25,12 +25,21 @@
     position: relative;
     z-index: 11;
     color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 170px;
+    text-align: left;
 }
 
 .description{
     vertical-align: middle;
-    text-align: center;
+    text-align: left;
     line-height: 45px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 800px;
 }
 
 .info {
