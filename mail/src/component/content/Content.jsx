@@ -32,9 +32,9 @@ const Content = ({
     }
 
     return (
-        <tr className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
+        <tr key={post._id} className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
-                <input className={classes.letter_input} name={post._id} checked={setCheck[check]}
+                <input className={classes.letter_input} checked={post.select}
                        onChange={e => {
                            let checked = e.target.checked;
                            setCheck(
