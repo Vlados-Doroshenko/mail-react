@@ -1,13 +1,13 @@
 import React from 'react';
 import classes from './settingmenu.module.css';
 
-const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove, check}) => {
+const SettingMenu = ({spam, restore, trash, data, options, remove}) => {
 
     const multipleSpam = (e) => {
         e.preventDefault();
         e.stopPropagation();
         data.forEach(item => {
-            if (check[0] === true || check[1] === true || multipleCheck === true || check.length === 1) {
+            if (item.select === true) {
                 spam(item);
             }
         });
@@ -17,7 +17,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.preventDefault();
         e.stopPropagation();
         data.forEach(item => {
-            if (check[0] === true || check[1] === true || multipleCheck === true || check.length === 1) {
+            if (item.select === true) {
                 remove(item);
             }
         });
@@ -27,7 +27,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.stopPropagation();
         e.preventDefault();
         data.forEach(item => {
-            if (check[0] === true || check[1] === true || multipleCheck === true || check.length === 1) {
+            if (item.select === true) {
                 restore(item);
             }
         });
@@ -37,7 +37,7 @@ const SettingMenu = ({spam, restore, trash, data, multipleCheck, options, remove
         e.stopPropagation();
         e.preventDefault();
         data.forEach(item => {
-            if (check[0] === true || check[1] === true || multipleCheck === true || check.length === 1) {
+            if (item.select === true) {
                 trash(item);
             }
         });

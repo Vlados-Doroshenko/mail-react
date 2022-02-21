@@ -1,10 +1,10 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Content from "../content/Content";
 import classes from './application.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
 
-const Application = ({collection, options, update, setUpdate, valueSearch}) => {
+const Application = ({collection, options, valueSearch, setCount}) => {
 
     const [data, setData] = useState([]);
 
@@ -23,6 +23,15 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                 const items = await collection.find({type: `${options}`});
                 await setData(items);
             }
+
+            if (options === 'inbox') {
+                const items = await collection.find({type: 'inbox', review: false});
+                items.forEach(item => {
+                    if (item.review === false && item.type === 'inbox') {
+                        setCount(items.length);
+                    }
+                });
+            }
             setCheck(
                 data.map(d => {
                     return {
@@ -39,14 +48,12 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
         if (!check.length) {
             setData(data.filter(p => p._id !== post._id));
             collection.deleteOne({_id: post._id});
-            setUpdate(!update);
         } else {
             check.forEach(item => {
                 if (item._id === post._id) {
                     collection.deleteMany({_id: post._id});
                 }
             });
-            setUpdate(!update);
         }
     }
 
@@ -60,7 +67,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                 newData.push(a);
             });
             setData(newData);
-            setUpdate(!update);
             collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
@@ -70,7 +76,7 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
             });
         } else {
             check.forEach(item => {
-                if (item._id === index._id) {
+                if (item._id === index._id && item.select === true) {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
@@ -80,7 +86,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                     });
                 }
             });
-            setUpdate(!update);
         }
     }
 
@@ -94,7 +99,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                 newData.push(a);
             })
             setData(newData);
-            setUpdate(!update);
             collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
@@ -112,7 +116,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                     });
                 }
             });
-            setUpdate(!update);
         }
     }
 
@@ -126,7 +129,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                 newData.push(a);
             })
             setData(newData);
-            setUpdate(!update);
             collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
@@ -144,7 +146,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                     });
                 }
             });
-            setUpdate(!update);
         }
     }
 
@@ -158,7 +159,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
             newData.push(a);
         })
         setData(newData);
-        setUpdate(!update);
         collection.updateOne({_id: index._id}, {
             title: index.title,
             description: index.description,
@@ -183,7 +183,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
             newData.push(a);
         })
         setData(newData);
-        setUpdate(!update);
         collection.updateOne({_id: index._id}, {
             title: index.title,
             description: index.description,
@@ -235,12 +234,11 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                         <tbody>
                         {
                             getPaginatedData().map((post, key) =>
-                                <Content data={data} key={post._id} check={check} setCheck={setCheck}
+                                <Content data={data} key={post._id} setCheck={setCheck}
                                          review={handleReview}
                                          remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam}
                                          trash={handleTrash}
                                          restore={handleRestore} collection={collection}
-                                         update={update} setUpdate={setUpdate}
                                          post={post} options={options}/>
                             )
                         }
@@ -254,8 +252,6 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                 pageSize={pageSize}
                 setPageSize={setPageSize}
                 setCurrentPage={setCurrentPage}
-                update={update}
-                setUpdate={setUpdate}
                 onPageChange={page => setCurrentPage(page)}
             />
         </div>

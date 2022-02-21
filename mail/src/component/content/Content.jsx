@@ -11,7 +11,6 @@ const Content = ({
                      restore,
                      options,
                      trash,
-                     check,
                      setCheck,
                      data,
                      review,

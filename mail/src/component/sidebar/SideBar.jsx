@@ -1,21 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import classes from './sidebar.module.css';
 import {NavLink} from "react-router-dom";
 
-const SideBar = ({setModal, update, setUpdate, collection, count, setCount}) => {
+const SideBar = ({setModal, update, setUpdate, count}) => {
     const [active] = useState(false);
-
-    useEffect(() => {
-        const countMail = async () => {
-            const items = await collection.find({type: 'inbox', review: false});
-            items.forEach(item => {
-                if (item.review === false && item.type === 'inbox') {
-                    setCount(items.length);
-                }
-            });
-        }
-        countMail();
-    }, []);
 
     return (
         <div className={classes.sidebar__wrappper}>

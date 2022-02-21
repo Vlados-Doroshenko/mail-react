@@ -9,15 +9,12 @@ import {API_KEY, app, COLLECTION_NAME, DATABASE_NAME, SERVICE_NAME} from "./conn
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import SideBar from "./component/sidebar/SideBar";
 import './index.css';
-import ReactDOM from "react-dom";
 
 const App = () => {
 
     const [collection, setCollection] = useState(null);
 
-    const [update, setUpdate] = useState(true);
-
-    const [loader, setLoader] = useState(false);
+    const [isLoader, setIsLoader] = useState(false);
 
     const [activeModal, setActiveModal] = useState(false);
 
@@ -27,56 +24,54 @@ const App = () => {
 
     useEffect(() => {
         const login = async () => {
-            setLoader(true);
+            setIsLoader(true);
 
             await app.logIn(Realm.Credentials.apiKey(API_KEY));
             const client = app.currentUser.mongoClient(SERVICE_NAME);
             const collection = client.db(DATABASE_NAME).collection(COLLECTION_NAME);
             setCollection(collection);
 
-            await setLoader(false);
+            await setIsLoader(false);
         }
         login();
-    }, [update]);
+    }, []);
 
-    if (loader) {
+    if (isLoader) {
         return <Loader/>
     } else {
 
         return (
             <div>
                 <BrowserRouter>
-                    <Header update={update} setUpdate={setUpdate} setValueSearch={setValueSearch}
+                    <Header setValueSearch={setValueSearch}
                             valueSearch={valueSearch} count={count}/>
-                    <SideBar setModal={setActiveModal} update={update} setUpdate={setUpdate} collection={collection}
+                    <SideBar setModal={setActiveModal} collection={collection}
                              count={count} setCount={setCount}/>
                     <Routes>
                         <Route path="/inbox"
-                               element={<Application valueSearch={valueSearch} update={update} setUpdate={setUpdate}
+                               element={<Application valueSearch={valueSearch}
                                                      collection={collection}
+                                                     setCount={setCount}
                                                      options={'inbox'}/>}/>
                         <Route path="/send"
                                element={<Application valueSearch={valueSearch} collection={collection}
-                                                     update={update} setUpdate={setUpdate}
                                                      options={'send'}/>}/>
                         <Route path="/spam"
                                element={<Application valueSearch={valueSearch} collection={collection}
-                                                     update={update} setUpdate={setUpdate}
                                                      options={'spam'}/>}/>
                         <Route path="/trash"
                                element={<Application valueSearch={valueSearch} collection={collection}
-                                                     update={update} setUpdate={setUpdate}
                                                      options={'trash'}/>}/>
                         <Route path="/"
                                element={<Application valueSearch={valueSearch} collection={collection}
-                                                     update={update} setUpdate={setUpdate}
+                                                     setCount={setCount}
                                                      options={'inbox'}/>}/>
                         <Route path="/:id"
-                               element={<Detail collection={collection} update={update} setUpdate={setUpdate}/>}/>
+                               element={<Detail collection={collection}/>}/>
                     </Routes>
                 </BrowserRouter>
                 {activeModal &&
-                    <Modal update={update} setUpdate={setUpdate} activeModal={activeModal} setActive={setActiveModal}
+                    <Modal activeModal={activeModal} setActive={setActiveModal}
                            collection={collection}/>}
             </div>
         );
