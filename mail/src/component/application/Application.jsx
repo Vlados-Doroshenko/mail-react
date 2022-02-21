@@ -194,6 +194,10 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
         });
     }
 
+    const handleChecked = check.filter(item => item.select);
+
+    console.log(handleChecked);
+
     return (
         <div className={classes.wrapper}>
             <div className={classes.aplication} style={pageSize > 11 ? {overflowY: "scroll"} : {overflowY: "hidden"}}>
@@ -222,6 +226,14 @@ const Application = ({collection, options, update, setUpdate, valueSearch}) => {
                                     }}
                                 />
                             </th>
+                            {
+                                handleChecked.length ? <SettingMenu check={check} setCheck={setCheck} options={options}
+                                                                    data={data}
+                                                                    collection={collection} spam={handleSpam}
+                                                                    trash={handleTrash}
+                                                                    restore={handleRestore}
+                                                                    remove={handleRemoveData}/> : ''
+                            }
                         </tr>
                         </thead>
                         <tbody>
