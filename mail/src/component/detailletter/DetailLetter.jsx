@@ -13,27 +13,23 @@ const DetailLetter = ({collection, setCount, count, setIsReload, isReload}) => {
         const find = async () => {
             const items = await collection.findOne({_id: ObjectID(id)});
             setItem(items);
-        }
-        find();
-    }, []);
 
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (!item.review) {
-                collection.updateOne({_id: item._id}, {
-                    title: item.title,
-                    description: item.description,
-                    type: item.type,
+            const timeoutId = setTimeout(async () => {
+                await collection.updateOne({_id: items._id}, {
+                    title: items.title,
+                    description: items.description,
+                    type: items.type,
                     review: true
                 });
                 setCount(!count);
                 setIsReload(!isReload);
-            }
-        }, 2000);
+            }, 2000);
 
-        return () => {
-            clearTimeout(timeoutId);
+            return () => {
+                clearTimeout(timeoutId);
+            }
         }
+        find();
     }, []);
 
     const handleBack = () => {

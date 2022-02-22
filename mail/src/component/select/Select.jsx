@@ -5,7 +5,7 @@ const Select = ({setPageSize, setCurrentPage}) => {
 
     const selectItem = (e) => {
         const {value} = e.target;
-        setPageSize(value);
+        setPageSize(Number(value));
         setCurrentPage(1);
     }
 

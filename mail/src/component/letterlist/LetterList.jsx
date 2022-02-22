@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Letter from "../letter/Letter";
-import classes from './application.module.css'
+import classes from './letterlist.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
+import SelectSort from "../selectSort/SelectSort";
 
 const LetterList = ({collection, options, valueSearch, setCount, count, setIsReload, isReload}) => {
 
@@ -12,7 +13,9 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(15);
+
+    const [isSort, setIsSort] = useState(1);
 
     const getAll = () => {
         const findMail = async () => {
@@ -22,17 +25,17 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                     type: `${options}`
                 }, {limit: pageSize, sort: {_id: -1}});
                 await setData(items);
+            } else {
+                const items = await collection.find({type: `${options}`}, {sort: {_id: isSort}, limit: pageSize});
+                await setData(items);
             }
-
-            const items = await collection.find({type: `${options}`}, {sort: {_id: -1}, limit: pageSize} );
-            await setData(items);
         }
         findMail();
     }
 
     useEffect(() => {
         getAll();
-    }, [isReload, valueSearch, collection, options]);
+    }, [isReload, valueSearch, collection, options, isSort]);
 
     const handleRemoveData = async (post) => {
         if (!check.length) {
@@ -44,10 +47,10 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
             check.forEach(item => {
                 if (item._id === post._id) {
                     collection.deleteMany({_id: post._id});
+                    getAll();
+                    setIsReload(!isReload);
                 }
             });
-            getAll();
-            setIsReload(!isReload);
         }
     }
 
@@ -79,10 +82,10 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                         cache: options,
                         review: index.review
                     });
+                    getAll();
+                    setIsReload(!isReload);
                 }
             });
-            getAll();
-            setIsReload(!isReload);
         }
     }
 
@@ -113,10 +116,10 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                         type: 'trash',
                         cache: options
                     });
+                    getAll();
+                    setIsReload(!isReload);
                 }
             });
-            getAll();
-            setIsReload(!isReload);
         }
     }
 
@@ -164,10 +167,10 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                         type: index.cache,
                         review: index.review
                     });
+                    getAll();
+                    setIsReload(!isReload);
                 }
             });
-            getAll();
-            setIsReload(!isReload);
         }
     }
 
@@ -234,6 +237,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                         <thead className={classes.table__head}>
                         <tr>
                             <th>
+                                <SelectSort setSort={setIsSort} isReload={isReload} setIsReload={setIsReload}/>
                                 <input
                                     type="checkbox"
                                     onChange={e => {

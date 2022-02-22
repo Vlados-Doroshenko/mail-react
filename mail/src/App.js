@@ -5,7 +5,7 @@ import Modal from "./component/modal/Modal";
 import Loader from "./component/Loader";
 import DetailLetter from "./component/detailletter/DetailLetter";
 import {API_KEY, app, COLLECTION_NAME, DATABASE_NAME, SERVICE_NAME} from "./connect/MongoDB";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import SideBar from "./component/sidebar/SideBar";
 import './index.css';
 import LetterList from "./component/letterlist/LetterList";
@@ -85,13 +85,10 @@ const App = () => {
                                element={<LetterList valueSearch={valueSearch} collection={collection}
                                                     isReload={isReload} setIsReload={setIsReload}
                                                     options={'trash'}/>}/>
-                        <Route path="/"
-                               element={<LetterList valueSearch={valueSearch} collection={collection}
-                                                    setCount={setCount}
-                                                    isReload={isReload} setIsReload={setIsReload}
-                                                    options={'inbox'}/>}/>
+                        <Route path="*" element={<Navigate to='/inbox' replace/>}/>
                         <Route path="/:id"
-                               element={<DetailLetter collection={collection} setCount={setCount} count={count} isReload={isReload} setIsReload={setIsReload}/>}/>
+                               element={<DetailLetter collection={collection} setCount={setCount} count={count}
+                                                      isReload={isReload} setIsReload={setIsReload}/>}/>
                     </Routes>
                 </BrowserRouter>
                 {activeModal &&
