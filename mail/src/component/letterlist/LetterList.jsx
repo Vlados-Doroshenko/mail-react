@@ -4,6 +4,7 @@ import classes from './letterlist.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
 import SelectSort from "../selectSort/SelectSort";
+import Select from "../select/Select";
 
 const LetterList = ({collection, options, valueSearch, setCount, count, setIsReload, isReload}) => {
 
@@ -16,6 +17,8 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
     const [pageSize, setPageSize] = useState(15);
 
     const [isSort, setIsSort] = useState(1);
+
+    console.log(data);
 
     const getAll = () => {
         const findMail = async () => {
@@ -35,7 +38,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
 
     useEffect(() => {
         getAll();
-    }, [isReload, valueSearch, collection, options, isSort]);
+    }, [isReload, valueSearch, collection, options, isSort, pageSize]);
 
     const handleRemoveData = async (post) => {
         if (!check.length) {
@@ -237,7 +240,6 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                         <thead className={classes.table__head}>
                         <tr>
                             <th>
-                                <SelectSort setSort={setIsSort} isReload={isReload} setIsReload={setIsReload}/>
                                 <input
                                     type="checkbox"
                                     onChange={e => {
@@ -281,6 +283,8 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                 totalCount={data.length}
                 pageSize={pageSize}
                 setPageSize={setPageSize}
+                setSort={setIsSort}
+                isReload={isReload} setIsReload={setIsReload}
                 setCurrentPage={setCurrentPage}
                 onPageChange={page => setCurrentPage(page)}
             />

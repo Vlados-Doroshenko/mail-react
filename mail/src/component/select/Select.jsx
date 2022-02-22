@@ -11,8 +11,8 @@ const Select = ({setPageSize, setCurrentPage}) => {
 
     return (
         <select className={classes.select} onChange={selectItem}>
-            <option value={10}>
-                10
+            <option value={15}>
+                15
             </option>
             <option value={25}>
                 25

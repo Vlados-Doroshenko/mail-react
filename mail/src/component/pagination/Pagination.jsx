@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import {usePagination, DOTS} from './usePagination';
 import './pagination.scss';
 import Select from "../select/Select";
+import SelectSort from "../selectSort/SelectSort";
 
 const Pagination = props => {
     const {
@@ -14,8 +15,9 @@ const Pagination = props => {
         className,
         setPageSize,
         setCurrentPage,
-        update,
-        setUpdate
+        setIsReload,
+        setSort,
+        isReload
     } = props;
 
     const paginationRange = usePagination({
@@ -25,9 +27,9 @@ const Pagination = props => {
         pageSize
     });
 
-    if (currentPage === 0 || paginationRange.length < 2) {
-        return null;
-    }
+    // if (currentPage === 0 || paginationRange.length < 2) {
+    //     return null;
+    // }
 
     const onNext = () => {
         onPageChange(currentPage + 1);
@@ -40,7 +42,8 @@ const Pagination = props => {
     let lastPage = paginationRange[paginationRange.length - 1];
     return (
         <div className={classnames('pagination-wrapper')}>
-            <Select setPageSize={setPageSize} setCurrentPage={setCurrentPage} update={update} setUpdate={setUpdate}/>
+            <Select setPageSize={setPageSize} setCurrentPage={setCurrentPage} isReload={isReload} setIsReload={setIsReload}/>
+            <SelectSort setSort={setSort} setCurrentPage={setCurrentPage} isReload={isReload} setIsReload={setIsReload}/>
             <ul
                 className={classnames('pagination-container', {[className]: className})}
             >
