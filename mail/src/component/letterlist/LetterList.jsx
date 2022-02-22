@@ -29,7 +29,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                 }, {limit: pageSize, sort: {_id: -1}});
                 await setData(items);
             } else {
-                const items = await collection.find({type: `${options}`}, {sort: {_id: isSort}, limit: pageSize});
+                const items = await collection.find({type: `${options}`}, {sort: {_id: isSort}});
                 await setData(items);
             }
         }
