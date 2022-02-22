@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Menu from "../menu/Menu";
 import {Link} from "react-router-dom";
 import classes from './letter.module.css';
@@ -14,24 +14,32 @@ const Letter = ({
                     setCheck,
                     data,
                     review,
-                    notReview
+                    notReview,
+    addCheckedLetter,
+    check
                 }) => {
+
+    const handelCheckbox = () => {
+        addCheckedLetter(post._id);
+    }
+
+    const arrayContains = (word, source_array) => {
+        return (source_array.indexOf(word) > -1);
+    }
+
+    const [isCheck, setIsCheck] = useState(arrayContains(post._id, check));
+
+    useEffect(() => {
+        setIsCheck(arrayContains(post._id, check));
+    },[check]);
 
     return (
         <tr key={post._id} className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>
             <td className={classNames(classes.letter__td, classes.checkbox)}>
-                <input className={classes.letter_input} checked={post.select}
-                       onChange={e => {
-                           let checked = e.target.checked;
-                           setCheck(
-                               data.map(d => {
-                                   if (d._id === post._id) {
-                                       d.select = checked;
-                                   }
-                                   return d;
-                               })
-                           );
-                       }}
+                <input className={classes.letter_input}
+                       onClick={(e) => e.stopPropagation()}
+                       checked={isCheck}
+                       onChange={handelCheckbox}
                        type='checkbox'/>
             </td>
             <td className={classes.letter__td}>

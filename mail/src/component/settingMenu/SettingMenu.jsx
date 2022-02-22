@@ -1,15 +1,17 @@
 import React from 'react';
 import classes from './settingmenu.module.css';
 
-const SettingMenu = ({spam, restore, trash, data, options, remove}) => {
+const SettingMenu = ({spam, restore, trash, data, options, remove, check, setCheck}) => {
 
     const multipleSpam = (e) => {
         e.preventDefault();
         e.stopPropagation();
         data.forEach(item => {
-            if (item.select === true) {
-                spam(item);
-            }
+            check.forEach(checkbox => {
+                if(item._id === checkbox._id) {
+                    spam(checkbox);
+                }
+            });
         });
     }
 
@@ -17,9 +19,11 @@ const SettingMenu = ({spam, restore, trash, data, options, remove}) => {
         e.preventDefault();
         e.stopPropagation();
         data.forEach(item => {
-            if (item.select === true) {
-                remove(item);
-            }
+            check.forEach(checkbox => {
+                if(item._id === checkbox._id) {
+                    remove(checkbox);
+                }
+            });
         });
     }
 
@@ -27,9 +31,11 @@ const SettingMenu = ({spam, restore, trash, data, options, remove}) => {
         e.stopPropagation();
         e.preventDefault();
         data.forEach(item => {
-            if (item.select === true) {
-                restore(item);
-            }
+            check.forEach(checkbox => {
+                if(item._id === checkbox._id) {
+                    restore(checkbox);
+                }
+            });
         });
     }
 
@@ -37,9 +43,11 @@ const SettingMenu = ({spam, restore, trash, data, options, remove}) => {
         e.stopPropagation();
         e.preventDefault();
         data.forEach(item => {
-            if (item.select === true) {
-                trash(item);
-            }
+            check.forEach(checkbox => {
+                if(item._id === checkbox._id) {
+                    trash(checkbox);
+                }
+            });
         });
     }
 

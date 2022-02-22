@@ -56,7 +56,8 @@ const Pagination = props => {
 
                     {
                         disabled: currentPage === lastPage
-                    })}
+                    }
+                    )}
                     onClick={onNext}
                 >
                     <div className="arrow right"/>

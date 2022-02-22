@@ -3,8 +3,6 @@ import Letter from "../letter/Letter";
 import classes from './letterlist.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
-import SelectSort from "../selectSort/SelectSort";
-import Select from "../select/Select";
 
 const LetterList = ({collection, options, valueSearch, setCount, count, setIsReload, isReload}) => {
 
@@ -17,8 +15,6 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
     const [pageSize, setPageSize] = useState(15);
 
     const [isSort, setIsSort] = useState(1);
-
-    console.log(data);
 
     const getAll = () => {
         const findMail = async () => {
@@ -34,6 +30,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
             }
         }
         findMail();
+        setCheck([]);
     }
 
     useEffect(() => {
@@ -77,7 +74,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
             await setIsReload(!isReload);
         } else {
             check.forEach(item => {
-                if (item._id === index._id && item.select === true) {
+                if (item._id === index._id) {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
@@ -112,7 +109,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
             setIsReload(!isReload);
         } else {
             check.forEach(item => {
-                if (item._id === index._id && item.select === true) {
+                if (item._id === index._id) {
                     collection.updateMany({_id: index._id}, {
                         title: index.title,
                         description: index.description,
@@ -135,7 +132,6 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                 }
                 newData.push(a);
             })
-            setData(newData);
             await collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
@@ -144,6 +140,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
             });
             getAll();
             setIsReload(!isReload);
+            setData(newData);
         } else if (options === 'send') {
             let newData = [];
             data.forEach((a) => {
@@ -223,11 +220,37 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
         setCount(!count);
     }
 
-    const handleChecked = check.filter(item => item.select);
+    const handleCheckBox = (item, index) => {
+        return (index.indexOf(item) > -1);
+    }
+
+    const addCheckedLetter = (e) => {
+        if (handleCheckBox(e, check)) {
+            let add = (check.filter((item) => {
+                return item !== e;
+            }))
+            setCheck(add);
+        } else {
+            let add = [...check, e];
+            setCheck(add);
+        }
+        if (e === true) {
+            setCheck([]);
+        }
+    }
+
+    const handleChecked = (e) => {
+        if (e) {
+            data.map(e => setCheck((check) => [...check, e._id]));
+        } else {
+            setCheck([]);
+        }
+    }
 
     return (
         <div className={classes.wrapper}>
-            <div className={classes.aplication} style={pageSize > 11 ? {overflowY: "scroll"} : {overflowY: "hidden"}}>
+            <div className={classes.aplication}
+                 style={pageSize < 11 || data.length < 10 ? {overflowY: "hidden"} : {overflowY: "scroll"}}>
                 {!data.length ?
                     <h1 className={classes.aplication__content}>
                         {options === 'inbox' ? 'The inbox is empty' : ''}
@@ -242,24 +265,16 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                             <th>
                                 <input
                                     type="checkbox"
-                                    onChange={e => {
-                                        let checked = e.target.checked;
-                                        setCheck(
-                                            data.map(d => {
-                                                d.select = checked;
-                                                return d;
-                                            })
-                                        );
-                                    }}
+                                    onChange={(e) => handleChecked(e.target.checked)}
                                 />
                             </th>
                             {
-                                handleChecked.length ? <SettingMenu check={check} setCheck={setCheck} options={options}
-                                                                    data={data}
-                                                                    collection={collection} spam={handleSpam}
-                                                                    trash={handleTrash}
-                                                                    restore={handleRestore}
-                                                                    remove={handleRemoveData}/> : ''
+                                check.length ? <SettingMenu check={check} setCheck={setCheck} options={options}
+                                                            data={data}
+                                                            collection={collection} spam={handleSpam}
+                                                            trash={handleTrash}
+                                                            restore={handleRestore}
+                                                            remove={handleRemoveData}/> : ''
                             }
                         </tr>
                         </thead>
@@ -267,9 +282,10 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                         {
                             getPaginatedData().map((post, key) =>
                                 <Letter data={data} key={post._id} setCheck={setCheck}
-                                        review={handleReview}
+                                        review={handleReview} check={check}
                                         remove={handleRemoveData} notReview={handleNotReview} spam={handleSpam}
                                         trash={handleTrash}
+                                        addCheckedLetter={addCheckedLetter}
                                         restore={handleRestore} collection={collection}
                                         post={post} options={options}/>
                             )
