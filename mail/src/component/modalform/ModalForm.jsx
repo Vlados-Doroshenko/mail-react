@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import classNames from "classnames";
 import classes from "./modalform.module.css";
 
-const ModalForm = ({collection, setActive}) => {
+const ModalForm = ({collection, setActive, isReload, setIsReload}) => {
     const [form, setForm] = useState({
         title: "", description: ""
     });
@@ -14,6 +14,7 @@ const ModalForm = ({collection, setActive}) => {
         collection.insertOne(newLetter);
         setForm({title: '', description: ''});
         setActive(false);
+        setIsReload(!isReload);
     }
 
     return (

@@ -6,7 +6,7 @@ import ModalForm from "../modalform/ModalForm";
 import ReactDOM from "react-dom";
 
 
-const Modal = ({activeModal, setActive, collection}) => {
+const Modal = ({activeModal, setActive, collection, setIsReload, isReload}) => {
 
     return ReactDOM.createPortal(
         <>
@@ -18,7 +18,7 @@ const Modal = ({activeModal, setActive, collection}) => {
                     <button className={classes.modal__btn_close} onClick={() => setActive(false)}>
                         <span className="material-icons">cancel</span>
                     </button>
-                    <ModalForm setActive={setActive} collection={collection}/>
+                    <ModalForm setActive={setActive} collection={collection} setIsReload={setIsReload} isReload={isReload}/>
                 </div>
             </div>
         </>,

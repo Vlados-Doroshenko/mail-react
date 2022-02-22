@@ -16,6 +16,8 @@ const App = () => {
 
     const [isLoader, setIsLoader] = useState(false);
 
+    const [isReload, setIsReload] = useState(true);
+
     const [activeModal, setActiveModal] = useState(false);
 
     const [valueSearch, setValueSearch] = useState('');
@@ -59,6 +61,7 @@ const App = () => {
             <div>
                 <BrowserRouter>
                     <Header setValueSearch={setValueSearch}
+                            isRealod={isReload} setIsRealod={setIsReload}
                             valueSearch={valueSearch} count={count}/>
                     <SideBar setModal={setActiveModal} collection={collection}
                              count={count} setCount={setCount}/>
@@ -66,29 +69,34 @@ const App = () => {
                         <Route path="/inbox"
                                element={<LetterList valueSearch={valueSearch}
                                                     collection={collection}
+                                                    isReload={isReload} setIsReload={setIsReload}
                                                     setCount={setCount} count={count}
                                                     options={'inbox'}/>}/>
                         <Route path="/send"
                                element={<LetterList valueSearch={valueSearch} collection={collection}
+                                                    isReload={isReload} setIsReload={setIsReload}
                                                     options={'send'}/>}/>
                         <Route path="/spam"
                                element={<LetterList valueSearch={valueSearch} collection={collection}
                                                     setCount={setCount} count={count}
+                                                    isReload={isReload} setIsReload={setIsReload}
                                                     options={'spam'}/>}/>
                         <Route path="/trash"
                                element={<LetterList valueSearch={valueSearch} collection={collection}
+                                                    isReload={isReload} setIsReload={setIsReload}
                                                     options={'trash'}/>}/>
                         <Route path="/"
                                element={<LetterList valueSearch={valueSearch} collection={collection}
                                                     setCount={setCount}
+                                                    isReload={isReload} setIsReload={setIsReload}
                                                     options={'inbox'}/>}/>
                         <Route path="/:id"
-                               element={<DetailLetter collection={collection} setCount={setCount} count={count}/>}/>
+                               element={<DetailLetter collection={collection} setCount={setCount} count={count} isReload={isReload} setIsReload={setIsReload}/>}/>
                     </Routes>
                 </BrowserRouter>
                 {activeModal &&
                     <Modal activeModal={activeModal} setActive={setActiveModal}
-                           collection={collection}/>}
+                           collection={collection} isReload={isReload} setIsReload={setIsReload}/>}
             </div>
         );
 

@@ -4,7 +4,7 @@ import classes from './application.module.css'
 import SettingMenu from "../settingMenu/SettingMenu";
 import Pagination from "../pagination/Pagination";
 
-const LetterList = ({collection, options, valueSearch, setCount, count}) => {
+const LetterList = ({collection, options, valueSearch, setCount, count, setIsReload, isReload}) => {
 
     const [data, setData] = useState([]);
 
@@ -14,7 +14,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
 
     const [pageSize, setPageSize] = useState(10);
 
-    const getLetters = () => {
+    const getAll = () => {
         const findMail = async () => {
             if (valueSearch) {
                 const items = await collection.find({
@@ -22,41 +22,32 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                     type: `${options}`
                 }, {limit: pageSize, sort: {_id: -1}});
                 await setData(items);
-            } else {
-                const items = await collection.find({type: `${options}`}, {sort: {_id: -1}});
-                await setData(items);
             }
 
-            const items = await collection.find({type: `${options}`}, {sort: {_id: -1}});
+            const items = await collection.find({type: `${options}`}, {sort: {_id: -1}, limit: pageSize} );
             await setData(items);
-
-            setCheck(
-                data.map(d => {
-                    return {
-                        select: false,
-                        id: d._id
-                    };
-                })
-            );
         }
         findMail();
     }
 
     useEffect(() => {
-        getLetters();
-    }, [valueSearch, collection, options]);
+        getAll();
+    }, [isReload, valueSearch, collection, options]);
 
     const handleRemoveData = async (post) => {
-        getLetters();
         if (!check.length) {
             setData(data.filter(p => p._id !== post._id));
             await collection.deleteOne({_id: post._id});
+            getAll();
+            setIsReload(!isReload);
         } else {
             check.forEach(item => {
                 if (item._id === post._id) {
                     collection.deleteMany({_id: post._id});
                 }
             });
+            getAll();
+            setIsReload(!isReload);
         }
     }
 
@@ -69,7 +60,6 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                 }
                 newData.push(a);
             });
-            setData(newData);
             await collection.updateOne({_id: index._id}, {
                 title: index.title,
                 description: index.description,
@@ -77,8 +67,8 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                 cache: options,
                 review: index.review
             });
-            getLetters();
-
+            setData(newData);
+            await setIsReload(!isReload);
         } else {
             check.forEach(item => {
                 if (item._id === index._id && item.select === true) {
@@ -89,9 +79,10 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                         cache: options,
                         review: index.review
                     });
-                    getLetters();
                 }
             });
+            getAll();
+            setIsReload(!isReload);
         }
     }
 
@@ -111,7 +102,8 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                 type: 'trash',
                 cache: options
             });
-            getLetters();
+            getAll();
+            setIsReload(!isReload);
         } else {
             check.forEach(item => {
                 if (item._id === index._id && item.select === true) {
@@ -121,9 +113,10 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                         type: 'trash',
                         cache: options
                     });
-                    getLetters();
                 }
             });
+            getAll();
+            setIsReload(!isReload);
         }
     }
 
@@ -143,7 +136,8 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                 type: index.cache,
                 review: index.review
             });
-            getLetters();
+            getAll();
+            setIsReload(!isReload);
         } else if (options === 'send') {
             let newData = [];
             data.forEach((a) => {
@@ -159,6 +153,8 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                 description: index.description,
                 type: index.cache
             });
+            getAll();
+            setIsReload(!isReload);
         } else {
             check.forEach(item => {
                 if (item._id === index._id && item.select === true) {
@@ -168,9 +164,10 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
                         type: index.cache,
                         review: index.review
                     });
-                    getLetters();
                 }
             });
+            getAll();
+            setIsReload(!isReload);
         }
     }
 
@@ -190,7 +187,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
             type: index.type,
             review: true
         });
-        getLetters();
+        getAll();
         setCount(!count);
     }
 
@@ -216,7 +213,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count}) => {
             type: index.type,
             review: false
         });
-        getLetters();
+        getAll();
         setCount(!count);
     }
 

@@ -3,7 +3,7 @@ import {useParams, useNavigate} from "react-router-dom";
 import classes from './detailletter.module.css';
 import {ObjectID} from "bson";
 
-const DetailLetter = ({collection, setCount, count}) => {
+const DetailLetter = ({collection, setCount, count, setIsReload, isReload}) => {
     const {id} = useParams();
     let navigate = useNavigate();
 
@@ -27,6 +27,7 @@ const DetailLetter = ({collection, setCount, count}) => {
                     review: true
                 });
                 setCount(!count);
+                setIsReload(!isReload);
             }
         }, 2000);
 
