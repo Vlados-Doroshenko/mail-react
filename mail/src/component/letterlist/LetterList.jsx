@@ -31,6 +31,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
         }
         findMail();
         setCheck([]);
+        setCurrentPage(1);
     }
 
     useEffect(() => {
@@ -38,114 +39,70 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
     }, [isReload, valueSearch, collection, options, isSort, pageSize]);
 
     const handleRemoveData = async (post) => {
-        if (!check.length) {
-            setData(data.filter(p => p._id !== post._id));
-            await collection.deleteOne({_id: post._id});
-            getAll();
-            setIsReload(!isReload);
-        } else {
-            check.forEach(item => {
-                if (item._id === post._id) {
-                    collection.deleteMany({_id: post._id});
-                    getAll();
-                    setIsReload(!isReload);
-                }
-            });
-        }
+        setData(data.filter(p => p._id !== post._id));
+        await collection.deleteOne({_id: post._id});
+        getAll();
     }
 
     const handleSpam = async (index) => {
-        if (!check.length) {
-            let newData = [];
-            data.forEach((a) => {
-                if (a === index) {
-                    a.type = 'spam';
-                }
-                newData.push(a);
-            });
-            await collection.updateOne({_id: index._id}, {
-                title: index.title,
-                description: index.description,
-                type: 'spam',
-                cache: options,
-                review: index.review
-            });
-            setData(newData);
-            await setIsReload(!isReload);
-        } else {
-            check.forEach(item => {
-                if (item._id === index._id) {
-                    collection.updateMany({_id: index._id}, {
-                        title: index.title,
-                        description: index.description,
-                        type: 'spam',
-                        cache: options,
-                        review: index.review
-                    });
-                    getAll();
-                    setIsReload(!isReload);
-                }
-            });
-        }
+        let newData = [];
+        data.forEach((a) => {
+            if (a === index) {
+                a.type = 'spam';
+            }
+            newData.push(a);
+        });
+        await collection.updateOne({_id: index._id}, {
+            title: index.title,
+            description: index.description,
+            type: 'spam',
+            cache: options,
+            review: index.review
+        });
+        setData(newData);
+        getAll();
     }
 
     const handleTrash = async (index) => {
-        if (!check.length) {
-            let newData = []
-            data.forEach((a) => {
-                if (a === index) {
-                    a.type = 'trash';
-                }
-                newData.push(a);
-            })
-            setData(newData);
-            await collection.updateOne({_id: index._id}, {
-                title: index.title,
-                description: index.description,
-                type: 'trash',
-                cache: options
-            });
-            getAll();
-            setIsReload(!isReload);
-        } else {
-            check.forEach(item => {
-                if (item._id === index._id) {
-                    collection.updateMany({_id: index._id}, {
-                        title: index.title,
-                        description: index.description,
-                        type: 'trash',
-                        cache: options
-                    });
-                    getAll();
-                    setIsReload(!isReload);
-                }
-            });
-        }
+        let newData = []
+        data.forEach((a) => {
+            if (a === index) {
+                a.type = 'trash';
+            }
+            newData.push(a);
+        })
+        setData(newData);
+        await collection.updateOne({_id: index._id}, {
+            title: index.title,
+            description: index.description,
+            type: 'trash',
+            cache: options
+        });
+        getAll();
     }
 
     const handleRestore = async (index) => {
-        if (!check.length) {
+        let newData = [];
+        data.forEach((a) => {
+            if (a === index) {
+                a.where = index.where;
+            }
+            newData.push(a);
+        })
+        await collection.updateOne({_id: index._id}, {
+            title: index.title,
+            description: index.description,
+            type: index.cache,
+            review: index.review
+        });
+        getAll();
+        setData(newData);
+
+        if (options === 'send') {
             let newData = [];
             data.forEach((a) => {
                 if (a === index) {
-                    a.where = index.where;
-                }
-                newData.push(a);
-            })
-            await collection.updateOne({_id: index._id}, {
-                title: index.title,
-                description: index.description,
-                type: index.cache,
-                review: index.review
-            });
-            getAll();
-            setIsReload(!isReload);
-            setData(newData);
-        } else if (options === 'send') {
-            let newData = [];
-            data.forEach((a) => {
-                if (a === index) {
-                    a.where = index.where;
+                    a.cache = index.cache;
                     a.type = 'send'
                 }
                 newData.push(a);
@@ -157,20 +114,6 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                 type: index.cache
             });
             getAll();
-            setIsReload(!isReload);
-        } else {
-            check.forEach(item => {
-                if (item._id === index._id && item.select === true) {
-                    collection.updateMany({_id: index._id}, {
-                        title: index.title,
-                        description: index.description,
-                        type: index.cache,
-                        review: index.review
-                    });
-                    getAll();
-                    setIsReload(!isReload);
-                }
-            });
         }
     }
 
@@ -271,11 +214,8 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                             </th>
                             {
                                 check.length ? <SettingMenu check={check} setCheck={setCheck} options={options}
-                                                            data={data}
-                                                            collection={collection} spam={handleSpam}
-                                                            trash={handleTrash}
-                                                            restore={handleRestore}
-                                                            remove={handleRemoveData}/> : ''
+                                                            data={data} getAll={getAll}
+                                                            collection={collection}/> : ''
                             }
                         </tr>
                         </thead>

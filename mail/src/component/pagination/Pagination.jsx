@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import {usePagination, DOTS} from './usePagination';
+import {usePagination} from './usePagination';
 import './pagination.scss';
 import Select from "../select/Select";
 import SelectSort from "../selectSort/SelectSort";
@@ -38,8 +38,10 @@ const Pagination = props => {
     let lastPage = paginationRange[paginationRange.length - 1];
     return (
         <div className={classnames('pagination-wrapper')}>
-            <Select setPageSize={setPageSize} setCurrentPage={setCurrentPage} isReload={isReload} setIsReload={setIsReload}/>
-            <SelectSort setSort={setSort} setCurrentPage={setCurrentPage} isReload={isReload} setIsReload={setIsReload}/>
+            <Select setPageSize={setPageSize} setCurrentPage={setCurrentPage} isReload={isReload}
+                    setIsReload={setIsReload}/>
+            <SelectSort setSort={setSort} setCurrentPage={setCurrentPage} isReload={isReload}
+                        setIsReload={setIsReload}/>
             <ul
                 className={classnames('pagination-container', {[className]: className})}
             >
@@ -54,9 +56,9 @@ const Pagination = props => {
                 <li
                     className={classnames('pagination-item',
 
-                    {
-                        disabled: currentPage === lastPage
-                    }
+                        {
+                            disabled: currentPage === lastPage
+                        }
                     )}
                     onClick={onNext}
                 >

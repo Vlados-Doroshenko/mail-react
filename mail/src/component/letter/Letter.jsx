@@ -11,12 +11,10 @@ const Letter = ({
                     restore,
                     options,
                     trash,
-                    setCheck,
-                    data,
                     review,
                     notReview,
-    addCheckedLetter,
-    check
+                    addCheckedLetter,
+                    check
                 }) => {
 
     const handelAddCheckBox = () => {
@@ -31,7 +29,7 @@ const Letter = ({
 
     useEffect(() => {
         setIsCheck(handleCheckBox(post._id, check));
-    },[check]);
+    }, [check]);
 
     return (
         <tr key={post._id} className={post.review === false ? classNames('letter', 'not_review') : 'letter'}>

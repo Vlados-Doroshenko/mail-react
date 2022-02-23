@@ -1,54 +1,59 @@
 import React from 'react';
 import classes from './settingmenu.module.css';
 
-const SettingMenu = ({spam, restore, trash, data, options, remove, check, setCheck}) => {
+const SettingMenu = ({data, collection, check, setCheck, getAll, options}) => {
 
-    const multipleSpam = (e) => {
+    const multipleSpam = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        data.forEach(item => {
-            check.forEach(checkbox => {
-                if(item._id === checkbox._id) {
-                    spam(checkbox);
-                }
-            });
+        await collection.updateMany({_id: {$in: check}}, {
+            $set: {
+                type: 'spam',
+                cache: options
+            }
         });
+        setCheck([]);
+        getAll();
     }
 
-    const multipleRemove = (e) => {
+    const multipleRemove = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        data.forEach(item => {
-            check.forEach(checkbox => {
-                if(item._id === checkbox._id) {
-                    remove(checkbox);
-                }
-            });
-        });
+        await collection.deleteMany({_id: {$in: check}});
+        setCheck([]);
+        getAll();
     }
 
-    const multipleRestore = (e) => {
+    const multipleRestore = async (e) => {
         e.stopPropagation();
         e.preventDefault();
-        data.forEach(item => {
-            check.forEach(checkbox => {
-                if(item._id === checkbox._id) {
-                    restore(checkbox);
+        for (const items of data) {
+            for (const item of check) {
+                if (items._id == item) {
+                    await collection.updateMany({_id: items._id}, {
+                        title: items.title,
+                        description: items.description,
+                        type: items.cache,
+                        review: items.review
+                    });
                 }
-            });
-        });
+            }
+        }
+        setCheck([]);
+        getAll();
     }
 
-    const multipleTrash = (e) => {
+    const multipleTrash = async (e) => {
         e.stopPropagation();
         e.preventDefault();
-        data.forEach(item => {
-            check.forEach(checkbox => {
-                if(item._id === checkbox._id) {
-                    trash(checkbox);
-                }
-            });
+        await collection.updateMany({_id: {$in: check}}, {
+            $set: {
+                type: 'trash',
+                cache: options
+            }
         });
+        setCheck([]);
+        getAll();
     }
 
     return (

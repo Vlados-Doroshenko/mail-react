@@ -2,8 +2,7 @@ import React from 'react';
 import classes from './header.module.css';
 import 'material-icons';
 
-
-const Header = ({valueSearch, setValueSearch, update, setUpdate, count}) => {
+const Header = ({valueSearch, setValueSearch, count}) => {
 
     return (
         <header>

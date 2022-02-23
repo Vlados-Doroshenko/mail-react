@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams, useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import classes from './detailletter.module.css';
 import {ObjectID} from "bson";
 
