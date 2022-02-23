@@ -91,6 +91,7 @@ const App = () => {
                                                       isReload={isReload} setIsReload={setIsReload}/>}/>
                     </Routes>
                 </BrowserRouter>
+
                 {activeModal &&
                     <Modal activeModal={activeModal} setActive={setActiveModal}
                            collection={collection} isReload={isReload} setIsReload={setIsReload}/>}
