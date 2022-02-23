@@ -266,6 +266,7 @@ const LetterList = ({collection, options, valueSearch, setCount, count, setIsRel
                                 <input
                                     type="checkbox"
                                     onChange={(e) => handleChecked(e.target.checked)}
+                                    checked={check.length !== data.length ? false : true}
                                 />
                             </th>
                             {

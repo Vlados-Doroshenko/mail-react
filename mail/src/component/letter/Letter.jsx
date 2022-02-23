@@ -19,18 +19,18 @@ const Letter = ({
     check
                 }) => {
 
-    const handelCheckbox = () => {
+    const handelAddCheckBox = () => {
         addCheckedLetter(post._id);
     }
 
-    const arrayContains = (word, source_array) => {
-        return (source_array.indexOf(word) > -1);
+    const handleCheckBox = (item, index) => {
+        return (index.indexOf(item) > -1);
     }
 
-    const [isCheck, setIsCheck] = useState(arrayContains(post._id, check));
+    const [isCheck, setIsCheck] = useState(handleCheckBox(post._id, check));
 
     useEffect(() => {
-        setIsCheck(arrayContains(post._id, check));
+        setIsCheck(handleCheckBox(post._id, check));
     },[check]);
 
     return (
@@ -39,7 +39,7 @@ const Letter = ({
                 <input className={classes.letter_input}
                        onClick={(e) => e.stopPropagation()}
                        checked={isCheck}
-                       onChange={handelCheckbox}
+                       onChange={handelAddCheckBox}
                        type='checkbox'/>
             </td>
             <td className={classes.letter__td}>
