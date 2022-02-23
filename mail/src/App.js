@@ -4,13 +4,13 @@ import Header from "./component/header/Header";
 import Modal from "./component/modal/Modal";
 import Loader from "./component/Loader";
 import DetailLetter from "./component/detailletter/DetailLetter";
-import {API_KEY, app, COLLECTION_NAME, DATABASE_NAME, SERVICE_NAME} from "./connect/MongoDB";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import SideBar from "./component/sidebar/SideBar";
 import './index.css';
 import LetterList from "./component/letterlist/LetterList";
 
 const App = () => {
+     const app = new Realm.App({id: process.env.REACT_APP_REALM_APP_ID});
 
     const [collection, setCollection] = useState(null);
 
@@ -28,9 +28,9 @@ const App = () => {
         const login = async () => {
             setIsLoader(true);
 
-            await app.logIn(Realm.Credentials.apiKey(API_KEY));
-            const client = app.currentUser.mongoClient(SERVICE_NAME);
-            const collection = client.db(DATABASE_NAME).collection(COLLECTION_NAME);
+            await app.logIn(Realm.Credentials.apiKey(process.env.REACT_APP_API_KEY));
+            const client = app.currentUser.mongoClient(process.env.REACT_APP_SERVICE_NAME);
+            const collection = client.db(process.env.REACT_APP_DATABASE_NAME).collection(process.env.REACT_APP_COLLECTION_NAME);
             setCollection(collection);
 
             const items = await collection.find({review: false});
@@ -91,13 +91,11 @@ const App = () => {
                                                       isReload={isReload} setIsReload={setIsReload}/>}/>
                     </Routes>
                 </BrowserRouter>
-
                 {activeModal &&
                     <Modal activeModal={activeModal} setActive={setActiveModal}
                            collection={collection} isReload={isReload} setIsReload={setIsReload}/>}
             </div>
         );
-
     }
 }
 
