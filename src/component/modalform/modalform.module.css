@@ -1,0 +1,66 @@
+.modal__form {
+    text-align: center;
+}
+
+.input{
+    margin: 20px auto;
+    height: 20px;
+    border: 0 ;
+    border-bottom: 1px black solid;
+    outline: none;
+    width: 100%;
+}
+.textarea{
+    margin: 20px auto;
+    border: 1px solid #000;
+    border-radius: 8px;
+    height: 250px;
+    width: 250px;
+}
+
+.button{
+    border-radius: 8px;
+    border: 0;
+    color: white;
+    background: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.button:hover{
+    cursor: pointer;
+    background: greenyellow;
+    color: black;
+}
+
+.modal__form .button:disabled {
+    border-style: outset;
+    background: silver!important;
+}
+
+.modalContent{
+    background: white;
+    border-radius: 16px;
+    min-width: 250px;
+    display: flex;
+    width: 500px;
+    height: 300px;
+    margin-bottom: 50px;
+    flex-direction: column;
+    position: relative;
+}
+
+.header ul button, .header ul a {
+    border: none;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.header ul button, .header ul a:hover {
+    cursor: pointer;
+}
